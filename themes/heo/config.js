@@ -8,8 +8,9 @@ const CONFIG = {
 
   // 首页顶部通知条滚动内容，如不需要可以留空 []
   HEO_NOTICE_BAR: [
-    { title: '欢迎来到我的博客', url: 'https://blog.tangly1024.com' },
-    { title: '访问文档中心获取更多帮助', url: 'https://docs.tangly1024.com' }
+ { title: '欢迎来到我的博客，有干货的吉他博主', url: 'www.mskyer.com' },
+ { title: '平凡吉他（初级篇）已经录制完成，后续中级篇抽空录制，高级篇正在撰写中', url: 'https://www.bilibili.com/video/BV1MVsseBEwy/?spm_id_from=333.999.0.0' }
+
   ],
 
   // 英雄区左右侧组件颠倒位置
@@ -18,19 +19,19 @@ const CONFIG = {
   HEO_HERO_BODY_REVERSE: false,
 
   // 英雄区(首页顶部大卡)
-  HEO_HERO_TITLE_1: '分享编程',
-  HEO_HERO_TITLE_2: '与思维认知',
-  HEO_HERO_TITLE_3: 'TANGLY1024.COM',
-  HEO_HERO_TITLE_4: '新版上线',
-  HEO_HERO_TITLE_5: 'NotionNext4.0 轻松定制主题',
-  HEO_HERO_TITLE_LINK: 'https://tangly1024.com',
+  HEO_HERO_TITLE_1: '无心月空',
+  HEO_HERO_TITLE_2: '吾与尔同行',
+  HEO_HERO_TITLE_3: 'www.mskyer.com',
+  HEO_HERO_TITLE_4: '2025砥砺前行',
+  HEO_HERO_TITLE_5: '曾老湿SHOP',
+  HEO_HERO_TITLE_LINK: 'www.mskyer.com/shop',
   // 英雄区遮罩文字
   HEO_HERO_COVER_TITLE: '随便逛逛',
 
   // 英雄区显示三个置顶分类
-  HEO_HERO_CATEGORY_1: { title: '必看精选', url: '/tag/必看精选' },
-  HEO_HERO_CATEGORY_2: { title: '热门文章', url: '/tag/热门文章' },
-  HEO_HERO_CATEGORY_3: { title: '实用教程', url: '/tag/实用教程' },
+  HEO_HERO_CATEGORY_1: { title: 'Blog精选', url: '/tag/必看精选' },
+  HEO_HERO_CATEGORY_2: { title: '原创教学', url: '/tag/教学' },
+  HEO_HERO_CATEGORY_3: { title: '博主日常', url: '/tag/日常' }, 
 
   // 英雄区右侧推荐文章标签, 例如 [推荐] , 最多六篇文章; 若留空白''，则推荐最近更新文章
   HEO_HERO_RECOMMEND_POST_TAG: '推荐',
