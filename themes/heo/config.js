@@ -8,9 +8,8 @@ const CONFIG = {
 
   // 首页顶部通知条滚动内容，如不需要可以留空 []
   HEO_NOTICE_BAR: [
-    { title: 'Hi，我是B站up-无心月空, 2025年新的启航', url: 'www.mskyer.com' },
-    { title: '平凡吉他（初级篇）正在录制更新中', url: 'https://www.bilibili.com/video/BV1MVsseBEwy/?spm_id_from=333.999.0.0' }
-    { title: '在正安学做琴，教学没有放下，事多更新比较慢，有购书需求请直接加微信18989133114',  }
+    { title: '我是B站up-无心月空, 正安学做琴，教学没有放下，事多更新比较慢，有购书需求请直接加微信18989133114', url: 'www.mskyer.com' },
+    { title: '平凡吉他（初级篇）录制完毕，中级篇准备录，高级篇在撰写', url: 'https://www.bilibili.com/video/BV1MVsseBEwy/?spm_id_from=333.999.0.0' }，
   ],
 
   // 英雄区左右侧组件颠倒位置
