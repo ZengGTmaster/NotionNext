@@ -25,7 +25,7 @@ const CONFIG = {
   HEO_HERO_TITLE_5: '曾老湿SHOP',
   HEO_HERO_TITLE_LINK: 'www.mskyer.com/shop',
     // 英雄区遮罩文字
-  HEO_HERO_COVER_TITLE: '随便逛逛',
+  HEO_HERO_COVER_TITLE: '',
 
   // 英雄区显示三个置顶分类
   HEO_HERO_CATEGORY_1: { title: 'Blog精选', url: '/tag/必看精选' },
