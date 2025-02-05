@@ -25,12 +25,12 @@ const CONFIG = {
   HEO_HERO_TITLE_5: '曾老湿SHOP',
   HEO_HERO_TITLE_LINK: 'www.mskyer.com/shop',
     // 英雄区遮罩文字
-  HEO_HERO_COVER_TITLE: '',
+  HEO_HERO_COVER_TITLE: '随便逛逛',
 
   // 英雄区显示三个置顶分类
-  HEO_HERO_CATEGORY_1: { title: '资源下载', url: 'https://www.mskyer.com/download' },
-  HEO_HERO_CATEGORY_2: { title: '本站商店', url: 'https://www.mskyer.com/shop' },
-  HEO_HERO_CATEGORY_3: { title: '博主介绍', url: 'https://www.mskyer.com/about' }, 
+  HEO_HERO_CATEGORY_1: { title: '资源下载', url: '/slug/download' },
+  HEO_HERO_CATEGORY_2: { title: '本站商店', url: '/slug/shop' },
+  HEO_HERO_CATEGORY_3: { title: '博主介绍', url: '/slug/about' }, 
 
   // 英雄区右侧推荐文章标签, 例如 [推荐] , 最多六篇文章; 若留空白''，则推荐最近更新文章
   HEO_HERO_RECOMMEND_POST_TAG: '必看精选',
