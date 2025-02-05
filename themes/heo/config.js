@@ -8,8 +8,8 @@ const CONFIG = {
 
   // 首页顶部通知条滚动内容，如不需要可以留空 []
   HEO_NOTICE_BAR: [
-    { title: '我是B站up-无心月空, 正安学做琴，事多更新比较慢', url: 'www.mskyer.com' },
-    { title: '平凡吉他（初级篇）录制完毕，中级篇准备录，高级篇在撰写', url: 'https://www.bilibili.com/video/BV1MVsseBEwy/?spm_id_from=333.999.0.0' }
+    { title: '我是B站up-无心月空, 正安学做琴，事多更新比较慢', url: '' },
+    { title: '平凡吉他（初级篇）录制完毕，中级篇准备录，高级篇在撰写——点击跳转', url: 'https://www.bilibili.com/video/BV1MVsseBEwy/?spm_id_from=333.999.0.0' }
   ],
 
   // 英雄区左右侧组件颠倒位置
@@ -28,9 +28,9 @@ const CONFIG = {
   HEO_HERO_COVER_TITLE: '随便逛逛',
 
   // 英雄区显示三个置顶分类
-  HEO_HERO_CATEGORY_1: { title: '资源下载', url: 'www.mskyer.com/download' },
-  HEO_HERO_CATEGORY_2: { title: '本站商店', url: 'www.mskyer.com/shop' },
-  HEO_HERO_CATEGORY_3: { title: '博主介绍', url: 'www.mskyer.com/about' }, 
+  HEO_HERO_CATEGORY_1: { title: 'Blog精选', url: '/tag/必看精选' },
+  HEO_HERO_CATEGORY_2: { title: '原创教学', url: '/tag/教学' },
+  HEO_HERO_CATEGORY_3: { title: '博主日常', url: '/tag/日常' }, 
 
   // 英雄区右侧推荐文章标签, 例如 [推荐] , 最多六篇文章; 若留空白''，则推荐最近更新文章
   HEO_HERO_RECOMMEND_POST_TAG: '必看精选',
