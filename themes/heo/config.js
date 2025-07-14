@@ -19,7 +19,7 @@ const CONFIG = {
 
   // 英雄区(首页顶部大卡)
   HEO_HERO_TITLE_1: 'Moonsky',
-  HEO_HERO_TITLE_2: '我们的征途是星辰大海',
+  HEO_HERO_TITLE_2: '踏上星辰大海',
   HEO_HERO_TITLE_3: '',
   HEO_HERO_TITLE_4: '',
   HEO_HERO_TITLE_5: '',
