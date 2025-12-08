@@ -153,9 +153,9 @@ const nextConfig = {
         ]
       },
   // 重写url
- rewrites: process.env.EXPORT
+  rewrites: process.env.EXPORT
     ? undefined
-    : async () => { // 建议加上 async，虽然不加也行，但加上更稳妥
+    : async () => {
         // 处理多语言重定向
         const langsRewrites = []
         if (BLOG.NOTION_PAGE_ID.indexOf(',') > 0) {
@@ -177,10 +177,12 @@ const nextConfig = {
               source: `/:locale(${langs.join('|')})/:path*`,
               destination: '/:path*'
             },
+            // 匹配没有路径的情况，例如 [domain]/zh 或 [domain]/en
             {
               source: `/:locale(${langs.join('|')})`,
               destination: '/'
             },
+            // 匹配没有路径的情况，例如 [domain]/zh/ 或 [domain]/en/
             {
               source: `/:locale(${langs.join('|')})/`,
               destination: '/'
@@ -189,24 +191,13 @@ const nextConfig = {
         }
 
         return [
-          // ▼▼▼▼▼▼▼ 【插入点在这里】 ▼▼▼▼▼▼▼
-          // 这是你要的吉他工具直通车
+          // ▼▼▼▼▼▼▼ 吉他工具直通车配置 ▼▼▼▼▼▼▼
           {
-            source: '/Circle-of-Fifths',              // 访问地址：www.mskyer.com/Circle-of-Fifths
-            destination: '/tool/musictool.html' // 实际文件：public/tool/musictool.html
+            source: '/tool',
+            destination: '/tool/musictool.html'
           },
-          // ▲▲▲▲▲▲▲ 【插入结束】 ▲▲▲▲▲▲▲
-
-          ...langsRewrites,
-          // 伪静态重写
-          {
-            source: '/:path*.html',
-            destination: '/:path*'
-          }
-        ]
-      },
-
-        return [
+          // ▲▲▲▲▲▲▲ 配置结束 ▲▲▲▲▲▲▲
+          
           ...langsRewrites,
           // 伪静态重写
           {
@@ -234,56 +225,8 @@ const nextConfig = {
                 value:
                   'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
               }
-              // 安全头部 相关配置，谨慎开启
-            //   { key: 'X-Frame-Options', value: 'DENY' },
-            //   { key: 'X-Content-Type-Options', value: 'nosniff' },
-            //   { key: 'X-XSS-Protection', value: '1; mode=block' },
-            //   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-            //   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
-            //   {
-            //     key: 'Strict-Transport-Security',
-            //     value: 'max-age=31536000; includeSubDomains; preload'
-            //   },
-            //   {
-            //     key: 'Content-Security-Policy',
-            //     value: [
-            //       "default-src 'self'",
-            //       "script-src 'self' 'unsafe-inline' 'unsafe-eval' *.googleapis.com *.gstatic.com *.google-analytics.com *.googletagmanager.com",
-            //       "style-src 'self' 'unsafe-inline' *.googleapis.com *.gstatic.com",
-            //       "img-src 'self' data: blob: *.notion.so *.unsplash.com *.githubusercontent.com *.gravatar.com",
-            //       "font-src 'self' *.googleapis.com *.gstatic.com",
-            //       "connect-src 'self' *.google-analytics.com *.googletagmanager.com",
-            //       "frame-src 'self' *.youtube.com *.vimeo.com",
-            //       "object-src 'none'",
-            //       "base-uri 'self'",
-            //       "form-action 'self'"
-            //     ].join('; ')
-            //   },
-
-            //   // CORS 配置（更严格）
-            //   { key: 'Access-Control-Allow-Credentials', value: 'false' },
-            //   {
-            //     key: 'Access-Control-Allow-Origin',
-            //     value: process.env.NODE_ENV === 'production'
-            //       ? siteConfig('LINK') || 'https://yourdomain.com'
-            //       : '*'
-            //   },
-            //   { key: 'Access-Control-Max-Age', value: '86400' }
             ]
           },
-            //   {
-            //     source: '/api/:path*',
-            //     headers: [
-            //       // API 特定的安全头部
-            //       { key: 'X-Frame-Options', value: 'DENY' },
-            //       { key: 'X-Content-Type-Options', value: 'nosniff' },
-            //       { key: 'Cache-Control', value: 'no-store, max-age=0' },
-            //       {
-            //         key: 'Access-Control-Allow-Methods',
-            //         value: 'GET,POST,PUT,DELETE,OPTIONS'
-            //       }
-            //     ]
-            //   }
         ]
       },
   webpack: (config, { dev, isServer }) => {
