@@ -153,9 +153,9 @@ const nextConfig = {
         ]
       },
   // 重写url
-  rewrites: process.env.EXPORT
+ rewrites: process.env.EXPORT
     ? undefined
-    : () => {
+    : async () => { // 建议加上 async，虽然不加也行，但加上更稳妥
         // 处理多语言重定向
         const langsRewrites = []
         if (BLOG.NOTION_PAGE_ID.indexOf(',') > 0) {
@@ -172,24 +172,39 @@ const nextConfig = {
           }
 
           // 映射多语言
-          // 示例： source: '/:locale(zh|en)/:path*' ; :locale() 会将语言放入重写后的 `?locale=` 中。
           langsRewrites.push(
             {
               source: `/:locale(${langs.join('|')})/:path*`,
               destination: '/:path*'
             },
-            // 匹配没有路径的情况，例如 [domain]/zh 或 [domain]/en
             {
               source: `/:locale(${langs.join('|')})`,
               destination: '/'
             },
-            // 匹配没有路径的情况，例如 [domain]/zh/ 或 [domain]/en/
             {
               source: `/:locale(${langs.join('|')})/`,
               destination: '/'
             }
           )
         }
+
+        return [
+          // ▼▼▼▼▼▼▼ 【插入点在这里】 ▼▼▼▼▼▼▼
+          // 这是你要的吉他工具直通车
+          {
+            source: '/Circle-of-Fifths',              // 访问地址：www.mskyer.com/Circle-of-Fifths
+            destination: '/tool/musictool.html' // 实际文件：public/tool/musictool.html
+          },
+          // ▲▲▲▲▲▲▲ 【插入结束】 ▲▲▲▲▲▲▲
+
+          ...langsRewrites,
+          // 伪静态重写
+          {
+            source: '/:path*.html',
+            destination: '/:path*'
+          }
+        ]
+      },
 
         return [
           ...langsRewrites,
