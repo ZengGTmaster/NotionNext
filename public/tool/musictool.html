@@ -248,10 +248,19 @@
 <body>
 
 <header>
-    <div class="header-left">
-        <h1>Music Theory Studio-Circle of Fifths</h1>
-        <div class="credits">音乐理论中心-五度圈，由B站UP：无心月空制作。（博客地址：<a href="http://www.mskyer.com" target="_blank">www.mskyer.com</a>）</div>
+    <!-- 左侧品牌区：Logo + 文字 -->
+    <div style="display: flex; align-items: center; gap: 12px;">
+        <!-- Logo 图片 -->
+        <img src="/tool/logo.png" alt="Logo" style="height: 38px; width: auto; display: block;">
+        
+        <!-- 标题文字 -->
+        <div class="header-left">
+            <h1>无心月空-乐理学习中心</h1>
+            <div class="credits">音乐理论学习工具由B站UP：无心月空制作。（博客地址：<a href="http://www.mskyer.com" target="_blank">www.mskyer.com</a>）</div>
+        </div>
     </div>
+
+    <!-- 右侧控制区 (保持不变) -->
     <div class="controls">
         <button class="btn btn-icon" id="btn-theme" onclick="app.toggleTheme()">🌙</button>
         <div style="width:1px; height:15px; background:var(--text-sub); opacity:0.3;"></div>
