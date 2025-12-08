@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Moonsky Theory Studio v26.0 (PC Fixed)</title>
+    <title>乐理学习中心 V1.47（测试版）</title>
     <style>
         :root {
             /* --- 核心配色 --- */
@@ -248,10 +248,19 @@
 <body>
 
 <header>
-    <div class="header-left">
-        <h1>Moonsky Theory Studio</h1>
-        <div class="credits">音乐理论学习工具由B站UP：无心月空制作。（博客地址：<a href="http://www.mskyer.com" target="_blank">www.mskyer.com</a>）</div>
+    <!-- 左侧：Logo + 标题文字 -->
+    <div style="display: flex; align-items: center; gap: 12px;">
+        <!-- 核心修改在这里：路径使用绝对路径 /tool/logo.png -->
+        <!-- 这样无论你的网址变成什么样，它都能准确定位到那个文件夹 -->
+        <img src="/tool/logo.png" alt="Logo" style="height: 38px; width: auto; display: block;">
+        
+        <div class="header-left">
+            <h1>Moonsky Theory Studio</h1>
+            <div class="credits">音乐理论学习工具由B站UP：无心月空制作。（博客地址：<a href="http://www.mskyer.com" target="_blank">www.mskyer.com</a>）</div>
+        </div>
     </div>
+
+    <!-- 右侧：控制按钮 (保持不变) -->
     <div class="controls">
         <button class="btn btn-icon" id="btn-theme" onclick="app.toggleTheme()">🌙</button>
         <div style="width:1px; height:15px; background:var(--text-sub); opacity:0.3;"></div>
