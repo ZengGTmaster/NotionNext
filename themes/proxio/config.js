@@ -211,7 +211,7 @@ const CONFIG = {
 
   // 页脚三列菜单组
   // 页脚菜单
-  PROXIO_FOOTER_LINKS: 
+  PROXIO_FOOTER_LINKS: [
 
   PROXIO_FOOTER_BLOG_LATEST_TITLE: '最新文章',
 
@@ -223,6 +223,7 @@ const CONFIG = {
 
   PROXIO_FOOTER_PRIVACY_TERMS_OF_SERVICE_TEXT: '服务协议',
   PROXIO_FOOTER_PRIVACY_TERMS_OF_SERVICE_URL: '/terms-of-use',
+    ],
 
   // 404页面的提示语
   PROXIO_404_TITLE: '我们似乎找不到您要找的页面。',
