@@ -2,7 +2,7 @@
  * 另一个落地页主题
  */
 const CONFIG = {
-  PROXIO_WELCOME_COVER_ENABLE: fasle, //是否显示页面进入的欢迎文字
+  PROXIO_WELCOME_COVER_ENABLE: false, //是否显示页面进入的欢迎文字
   PROXIO_WELCOME_TEXT: '', // 欢迎文字，留空则不启用
 
   // 英雄区块导航
