@@ -20,7 +20,7 @@ const CONFIG = {
   PROXIO_HERO_BUTTON_2_ICON: '', // 英雄区按钮2的图标，不需要则留空  #/images/starter/github-mark.svg
 
   // 英雄区配图，如需隐藏，改为空值即可 ''
-  PROXIO_HERO_BANNER_IMAGE: 'https://www.notion.so/image/attachment%3A1d250e5d-93e0-474b-ad3f-ca3740993063%3Aunnamed.jpg?table=block&id=99c46058-ee53-4c2e-8267-78428f4e6995&spaceId=487331e2-a2ec-483b-89e0-d7e524548b8a&width=2000&userId=661a2e9c-4462-4063-b77e-3d48b1cb2898&cache=v2', // hero区背景，默认是获取Notion背景，如需另外配置图片可以填写在这里
+  PROXIO_HERO_BANNER_IMAGE: '', // hero区背景，默认是获取Notion背景，如需另外配置图片可以填写在这里
   PROXIO_HERO_BANNER_IFRAME_URL: '', // hero背景区内嵌背景网页 ，可以配置一个网页地址，例如动画网页https://my.spline.design/untitled-b0c6e886227646c34afc82cdc6de4ca2/
 
   // 文章区块
