@@ -14,6 +14,7 @@ const CONFIG = {
   PROXIO_HERO_BUTTON_1_URL:
     'https://space.bilibili.com/156820044?spm_id_from=333.337.0.0', // 英雄区按钮
   PROXIO_HERO_BUTTON_1_ICON: '', // 英雄区按钮1的图标，不需要则留空  #/images/starter/github-mark.svg
+  
   PROXIO_HERO_BUTTON_2_TEXT: '', // 英雄区按钮
   PROXIO_HERO_BUTTON_2_URL: '', // 英雄区按钮
   PROXIO_HERO_BUTTON_2_ICON: '', // 英雄区按钮2的图标，不需要则留空  #/images/starter/github-mark.svg
@@ -198,13 +199,13 @@ const CONFIG = {
   // 横向滚动文字
   PROXIO_BRANDS_ENABLE: true, // 滚动文字
   PROXIO_BRANDS: [
-    '著作',
+    'Beyond曲集',
     '精通指板',
     'CAGED系统',
     '平凡吉他',
     '指板上的乐理',
     '吉他手工具资料',
-    '......',
+    '电子谱集',
   ],
 
   PROXIO_FOOTER_SLOGAN: '我们通过技术为品牌和公司创造数字体验。',
@@ -218,14 +219,11 @@ const CONFIG = {
   PROXIO_404_BACK: '回到主页',
 
   // 页面底部的行动呼吁模块
-  PROXIO_CTA_ENABLE: false,
+  PROXIO_CTA_ENABLE: true,
   PROXIO_CTA_TITLE: '与我建立联系',
-  PROXIO_CTA_TITLE_2: '让我们立刻启动您的项目',
+  PROXIO_CTA_TITLE_2: '微信：18989133114 坐标：成都',
   PROXIO_CTA_DESCRIPTION:
-    '访问NotionNext的操作文档，我们提供了详细的教程，帮助你即刻搭建站点',
-  PROXIO_CTA_BUTTON: false, // 是否显示按钮
-  PROXIO_CTA_BUTTON_URL: '/about',
-  PROXIO_CTA_BUTTON_TEXT: '联系我',
+    '提供一对一线下教学，或者一对一线上教学，针对每个人的情况制定、调整学习课程',
 
   PROXIO_POST_REDIRECT_ENABLE: false, // 默認開啟重定向
   PROXIO_POST_REDIRECT_URL: 'https://blog.tangly1024.com', // 重定向域名
