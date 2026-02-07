@@ -179,9 +179,9 @@ const CONFIG = {
   // 关于作者区块
   PROXIO_ABOUT_ENABLE: true, // 关于作者区块区块开关
   PROXIO_ABOUT_TITLE: '关于作者',
-  PROXIO_ABOUT_TEXT_1: '我是',
+  PROXIO_ABOUT_TEXT_1: '我是深耕好多人看不上，懒得干，来钱慢的教学领域',
   PROXIO_ABOUT_TEXT_2:
-    'With a background in architecture, I now apply my expertise to product design, blending aesthetics, functionality, and innovation. My goal is to create modern, user-focused designs that bring your vision to life.',
+    '太多人对社会上的琴行、培训机构不信任，是因为教吉他门槛低，不认真做、没水平的太多。也是为什么在学校里面挤破头都想把孩子送到好老师的班里。经验丰富、实践多年、有创作......而我就是你需要的人。',
   PROXIO_ABOUT_PHOTO_URL: '/avatar.png',
   PROXIO_ABOUT_KEY_1: '小学公办教师经历',
   PROXIO_ABOUT_VAL_1: '15年',
@@ -198,10 +198,13 @@ const CONFIG = {
   // 横向滚动文字
   PROXIO_BRANDS_ENABLE: true, // 滚动文字
   PROXIO_BRANDS: [
-    'Web Design',
-    'Logo Design',
-    'Mobile App Design',
-    'Product Design'
+    '著作',
+    '精通指板',
+    'CAGED系统',
+    '平凡吉他'
+    '指板上的乐理'
+    '吉他手工具资料'
+    '......'
   ],
 
   PROXIO_FOOTER_SLOGAN: '我们通过技术为品牌和公司创造数字体验。',
