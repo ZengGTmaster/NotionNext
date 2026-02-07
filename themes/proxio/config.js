@@ -34,10 +34,10 @@ const CONFIG = {
   PROXIO_BLOG_PLACEHOLDER_IMG_URL_3: '',
   PROXIO_BLOG_PLACEHOLDER_IMG_URL_4: '',
 
-  PROXIO_ANNOUNCEMENT_ENABLE: true, //公告文字区块
+  PROXIO_ANNOUNCEMENT_ENABLE: false, //公告文字区块
 
   // 特性区块
-  PROXIO_FEATURE_ENABLE: true, // 特性区块开关
+  PROXIO_FEATURE_ENABLE: false, // 特性区块开关
   PROXIO_FEATURE_TITLE: '为什么选我',
   PROXIO_FEATURE_TEXT_1: '我能让您的项目焕发光彩',
   PROXIO_FEATURE_TEXT_2: '丰富的案例经验，专业的技术服务，优质的沟通效率',
@@ -64,7 +64,7 @@ const CONFIG = {
   PROXIO_FEATURE_BUTTON_URL: 'https://github.com/tangly1024/NotionNext', // 按钮跳转
 
   // 首页生涯区块
-  PROXIO_CAREER_ENABLE: true, // 区块开关
+  PROXIO_CAREER_ENABLE: false, // 区块开关
   PROXIO_CAREER_TITLE: '生涯',
   PROXIO_CAREER_TEXT: '以下是我的职业生涯',
 
