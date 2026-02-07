@@ -96,7 +96,7 @@ const CONFIG = {
     '数千位站长选择用NotionNext搭建他们的网站,通过帮助手册、交流社群以及技术咨询，大家成功上线了自己的网站',
 
   // 用户测评处的跳转按钮
-  PROXIO_TESTIMONIALS_BUTTON_URL: '/about',
+  PROXIO_TESTIMONIALS_BUTTON_URL: '/about',0
   PROXIO_TESTIMONIALS_BUTTON_TEXT: '联系我',
 
   // 这里不支持CONFIG和环境变量，需要一一修改此处代码。
@@ -197,7 +197,7 @@ const CONFIG = {
   PROXIO_ABOUT_BUTTON_TEXT: '关于我',
 
   // 横向滚动文字
-  PROXIO_BRANDS_ENABLE: true, // 滚动文字
+  PROXIO_BRANDS_ENABLE: false, // 滚动文字
   PROXIO_BRANDS: [
     'Beyond曲集',
     '精通指板',
