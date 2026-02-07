@@ -23,7 +23,7 @@ const CONFIG = {
   PROXIO_HERO_BANNER_IFRAME_URL: '', // hero背景区内嵌背景网页 ，可以配置一个网页地址，例如动画网页https://my.spline.design/untitled-b0c6e886227646c34afc82cdc6de4ca2/
 
   // 文章区块
-  PROXIO_BLOG_ENABLE: true, // 首页博文区块开关
+  PROXIO_BLOG_ENABLE: false, // 首页博文区块开关
   PROXIO_BLOG_TITLE: '作品',
   PROXIO_BLOG_COUNT: 4, // 首页博文区块展示前4篇文章
   PROXIO_BLOG_TEXT_1: '我的最新动态',
@@ -88,7 +88,7 @@ const CONFIG = {
   ],
 
   // 首页用户测评区块
-  PROXIO_TESTIMONIALS_ENABLE: true, // 测评区块开关
+  PROXIO_TESTIMONIALS_ENABLE: false, // 测评区块开关
   PROXIO_TESTIMONIALS_TITLE: '用户反馈',
   PROXIO_TESTIMONIALS_TEXT_1: '我们的用户怎么说',
   PROXIO_TESTIMONIALS_TEXT_2:
@@ -153,7 +153,7 @@ const CONFIG = {
   ],
 
   //   FAQ 常见问题模块
-  PROXIO_FAQ_ENABLE: true, // 常见问题模块开关
+  PROXIO_FAQ_ENABLE: false, // 常见问题模块开关
   PROXIO_FAQ_TITLE: '常见问题解答',
   PROXIO_FAQ_TEXT_1: '有任何问题吗？请看这里',
   PROXIO_FAQ_TEXT_2: '我们收集了常见的用户疑问',
@@ -179,18 +179,18 @@ const CONFIG = {
   // 关于作者区块
   PROXIO_ABOUT_ENABLE: true, // 关于作者区块区块开关
   PROXIO_ABOUT_TITLE: '关于作者',
-  PROXIO_ABOUT_TEXT_1: 'I am an Architect Turned Into a Product Designer',
+  PROXIO_ABOUT_TEXT_1: '我是',
   PROXIO_ABOUT_TEXT_2:
     'With a background in architecture, I now apply my expertise to product design, blending aesthetics, functionality, and innovation. My goal is to create modern, user-focused designs that bring your vision to life.',
   PROXIO_ABOUT_PHOTO_URL: '/avatar.png',
-  PROXIO_ABOUT_KEY_1: '经验年限',
-  PROXIO_ABOUT_VAL_1: '10年+',
-  PROXIO_ABOUT_KEY_2: '客户',
-  PROXIO_ABOUT_VAL_2: '1000+',
-  PROXIO_ABOUT_KEY_3: '交付项目',
-  PROXIO_ABOUT_VAL_3: '5000+',
-  PROXIO_ABOUT_KEY_4: '累积创作时长（小时）',
-  PROXIO_ABOUT_VAL_4: '10000+',
+  PROXIO_ABOUT_KEY_1: '小学公办教师经历',
+  PROXIO_ABOUT_VAL_1: '15年',
+  PROXIO_ABOUT_KEY_2: '一对一教学经验',
+  PROXIO_ABOUT_VAL_2: '300+人次',
+  PROXIO_ABOUT_KEY_3: '撰写教材',
+  PROXIO_ABOUT_VAL_3: '7本',
+  PROXIO_ABOUT_KEY_4: '教学视频播放',
+  PROXIO_ABOUT_VAL_4: '50万次+',
 
   PROXIO_ABOUT_BUTTON_URL: '/about',
   PROXIO_ABOUT_BUTTON_TEXT: '关于我',
