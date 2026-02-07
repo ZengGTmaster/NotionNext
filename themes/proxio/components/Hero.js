@@ -1,18 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
-import LazyImage from '@/components/LazyImage'
 import { siteConfig } from '@/lib/config'
 import CONFIG from '../config'
 import SmartLink from '@/components/SmartLink'
 
 /**
- * 英雄大图区块
+ * 英雄大图区块 - 已移除背景图，保留文字并优化间距
  */
 export const Hero = props => {
   const config = props?.NOTION_CONFIG || CONFIG
-  const pageCover = props?.siteInfo?.pageCover
-  const bannerImage =
-    siteConfig('PROXIO_HERO_BANNER_IMAGE', null, config) || pageCover
-  const bannerIframe = siteConfig('PROXIO_HERO_BANNER_IFRAME_URL', null, config)
   const PROXIO_HERO_BUTTON_1_TEXT = siteConfig(
     'PROXIO_HERO_BUTTON_1_TEXT',
     null,
@@ -28,32 +23,11 @@ export const Hero = props => {
     null,
     config
   )
+
   return (
     <>
-      {/* <!-- ====== Hero Section Start --> */}
-      <div id='home' className='h-screen relative overflow-hidden bg-primary '>
-        {/* 横幅图片 */}
-        {!bannerIframe && bannerImage && (
-          <LazyImage
-            priority
-            className='w-full object-cover absolute h-screen left-0 top-0 pointer-events-none'
-            src={bannerImage}
-          />
-        )}
-        <iframe
-          src={bannerIframe}
-          className='w-full absolute h-screen left-0 top-0 pointer-events-none'
-        />
-        {/* 阴影遮罩 */}
-        <div className='h-1/3 w-full absolute left-0 bottom-0 z-10'>
-          <div
-            className='h-full w-full absolute group-hover:opacity-100 transition-all duration-1000 
-                    bg-gradient-to-b from-transparent to-white dark:to-black'
-          />
-        </div>
-      </div>
-      {/* 文字标题等 */}
-      <div className='w-full pb-15 dark:text-white'>
+      {/* 文字标题区：通过 pt-40 确保不在导航栏下方被遮挡 */}
+      <div className='w-full pt-40 pb-15 dark:text-white'>
         <div className='container -mx-4 flex flex-wrap items-center'>
           <div className='w-full px-4'>
             <div
@@ -95,7 +69,6 @@ export const Hero = props => {
           </div>
         </div>
       </div>
-      {/* <!-- ====== Hero Section End --> */}
     </>
   )
 }
