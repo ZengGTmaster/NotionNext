@@ -8,11 +8,12 @@ const CONFIG = {
   // 英雄区块导航
   PROXIO_HERO_ENABLE: true, // 开启英雄区
   PROXIO_HERO_TITLE_1: 'B站UP：无心月空的个人博客', // 英雄区文字
-  PROXIO_HERO_TITLE_2: '无权无势的你，除了努力没有其他的路了。', // 英雄区文字
+  PROXIO_HERO_TITLE_2: '优秀的吉他教师，战绩可查', // 英雄区文字
   // 英雄区两个按钮，如果TEXT留空则隐藏按钮
   PROXIO_HERO_BUTTON_1_TEXT: 'B站主页', // 英雄区按钮
   PROXIO_HERO_BUTTON_1_URL:
     'https://space.bilibili.com/156820044?spm_id_from=333.337.0.0', // 英雄区按钮
+  PROXIO_HERO_BUTTON_1_ICON: '', // 英雄区按钮1的图标，不需要则留空  #/images/starter/github-mark.svg
   PROXIO_HERO_BUTTON_2_TEXT: '', // 英雄区按钮
   PROXIO_HERO_BUTTON_2_URL: '', // 英雄区按钮
   PROXIO_HERO_BUTTON_2_ICON: '', // 英雄区按钮2的图标，不需要则留空  #/images/starter/github-mark.svg
