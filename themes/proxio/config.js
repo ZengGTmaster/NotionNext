@@ -7,7 +7,7 @@ const CONFIG = {
 
   // 英雄区块导航
   PROXIO_HERO_ENABLE: true, // 开启英雄区
-  PROXIO_HERO_TITLE_1: 'B站UP：无心月空的个人博客', // 英雄区文字
+  PROXIO_HERO_TITLE_1: '无心月空🌙的博客', // 英雄区文字
   PROXIO_HERO_TITLE_2: '优秀的吉他教师，战绩可查', // 英雄区文字
   // 英雄区两个按钮，如果TEXT留空则隐藏按钮
   PROXIO_HERO_BUTTON_1_TEXT: 'B站主页', // 英雄区按钮
