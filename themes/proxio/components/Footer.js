@@ -25,13 +25,6 @@ export const Footer = ({ title }) => {
         {/* 信息与链接区块 */}
         <div className='w-full flex lg:flex-row flex-col justify-between py-16'>
           <div className='gap-y-2 flex flex-col items-start dark:text-gray-200'>
-            <div className='flex gap-x-1'>
-              <LazyImage
-                src={siteInfo?.icon}
-                className='rounded-full'
-                width={24}
-                alt={siteConfig('AUTHOR')}
-              />
               <h1 className='text-lg'>{title}</h1>
               <span
                 className='underline font-bold justify-start'>
