@@ -86,7 +86,7 @@ const LayoutIndex = props => {
             {/* 2. 装饰图区域 - wan.png */}
             <section className="w-full flex justify-center py-2">
                 <img 
-                    src="/wan.png" 
+                    src="/images/wan.png" 
                     alt="decoration" 
                     className="w-full max-w-[400px] h-auto object-contain opacity-80" 
                     // 这里 max-w-[400px] 限制了图片最大宽度，您可以根据喜好修改数字
