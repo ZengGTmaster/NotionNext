@@ -69,6 +69,7 @@ const LayoutBase = props => {
  * 首页布局
  */
 const LayoutIndex = props => {
+    const { locale } = useGlobal()
     const count = 6 
     const posts = useMemo(() => (props?.allNavPages ? props.allNavPages.slice(0, count) : []), [props.allNavPages, count])
 
@@ -82,7 +83,7 @@ const LayoutIndex = props => {
                 </section>
             )}
 
-            {/* 2. 装饰图区域 - 宽度与边界对齐 */}
+            {/* 2. 装饰图区域 */}
             <section className="container mx-auto px-5 lg:px-10 py-2 flex justify-center">
                 <img 
                     src="/images/wan.png" 
@@ -92,32 +93,27 @@ const LayoutIndex = props => {
                 />
             </section>
 
-            {/* 3. 博客文章展示区 - 注入金色大标题样式 */}
+            {/* 3. 博客文章展示区 - 恢复默认样式 */}
             {siteConfig('PROXIO_BLOG_ENABLE', true, CONFIG) && (
                 <section className="container mx-auto px-5 lg:px-10 border-none"> 
                     <div className="py-8">
-                        {/* 强制修改标题样式的 CSS */}
-                        <style jsx global>{`
-                            #theme-proxio section h2 { 
-                                color: #FFD700 !important; /* 经典金色 */
-                                font-size: 2.2rem !important; 
-                                line-height: 1.6 !important;
-                                font-weight: 700 !important;
-                                text-align: center !important;
-                                margin-bottom: 2.5rem !important;
-                                text-shadow: 0 0 10px rgba(255, 215, 0, 0.3) !important; /* 文字微光效果 */
-                                letter-spacing: 0.1em !important;
-                            }
-                            @media (min-width: 1024px) {
-                                #theme-proxio section h2 { font-size: 3.2rem !important; }
-                            }
-                        `}</style>
                         <Blog posts={posts} />
+
+                        {/* 更多文章按钮 */}
+                        <div className='flex justify-center mt-12'>
+                            <SmartLink 
+                                href='/archive' 
+                                className='group flex items-center gap-2 px-8 py-3 bg-white/10 hover:bg-primary border border-white/20 hover:border-primary text-white rounded-full transition-all duration-300 shadow-lg'
+                            >
+                                <span className='text-lg font-medium'>{locale.COMMON.MORE}</span>
+                                <i className="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </SmartLink>
+                        </div>
                     </div>
                 </section>
             )}
 
-            {/* 4. 其他业务组件容器 */}
+            {/* 4. 其他业务组件 */}
             <div className="container mx-auto px-5 lg:px-10 space-y-8 mb-10 mt-10">
                 {siteConfig('PROXIO_ABOUT_ENABLE', true, CONFIG) && <Team />}
                 {siteConfig('PROXIO_BRANDS_ENABLE', true, CONFIG) && <Brand />}
@@ -199,7 +195,22 @@ const LayoutDashboard = props => (
     </div>
 )
 
-const LayoutArchive = props => <div className="py-10"><Blog {...props} /></div>
+const LayoutArchive = props => {
+    const { locale } = useGlobal()
+    return (
+        <div className="container mx-auto px-5 py-10">
+            <div className='flex flex-wrap justify-center gap-4 mb-10'>
+                <SmartLink href='/category' className='px-6 py-2 bg-primary/20 hover:bg-primary border border-primary/30 text-white rounded-full transition-all'>
+                    <i className="fas fa-folder mr-2"></i>{locale.COMMON.CATEGORY}
+                </SmartLink>
+                <SmartLink href='/tag' className='px-6 py-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-full transition-all'>
+                    <i className="fas fa-tag mr-2"></i>{locale.COMMON.TAGS}
+                </SmartLink>
+            </div>
+            <Blog {...props} />
+        </div>
+    )
+}
 
 const Layout404 = () => (
     <section className='flex items-center justify-center min-h-[70vh] px-5'>
