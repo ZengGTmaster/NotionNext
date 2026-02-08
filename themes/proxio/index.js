@@ -83,7 +83,7 @@ const LayoutIndex = props => {
                 </section>
             )}
 
-            {/* 2. 装饰图区域 */}
+            {/* 2. 装饰图区域 - 宽度与导航栏对齐 */}
             <section className="container mx-auto px-5 lg:px-10 py-2 flex justify-center">
                 <img 
                     src="/images/wan.png" 
@@ -93,17 +93,17 @@ const LayoutIndex = props => {
                 />
             </section>
 
-            {/* 3. 博客文章展示区 - 恢复默认样式 */}
+            {/* 3. 博客文章展示区 - 保持默认字体样式 */}
             {siteConfig('PROXIO_BLOG_ENABLE', true, CONFIG) && (
                 <section className="container mx-auto px-5 lg:px-10 border-none"> 
                     <div className="py-8">
                         <Blog posts={posts} />
 
-                        {/* 更多文章按钮 */}
+                        {/* 增加更多文章按钮 - 默认配色 */}
                         <div className='flex justify-center mt-12'>
                             <SmartLink 
                                 href='/archive' 
-                                className='group flex items-center gap-2 px-8 py-3 bg-white/10 hover:bg-primary border border-white/20 hover:border-primary text-white rounded-full transition-all duration-300 shadow-lg'
+                                className='group flex items-center gap-2 px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/20 text-white rounded-full transition-all duration-300'
                             >
                                 <span className='text-lg font-medium'>{locale.COMMON.MORE}</span>
                                 <i className="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
@@ -130,7 +130,7 @@ const LayoutIndex = props => {
 }
 
 /**
- * 其余布局保持不变
+ * 详情页布局
  */
 const LayoutSlug = props => {
     const { post, lock, validPassword } = props
@@ -159,6 +159,27 @@ const LayoutSlug = props => {
                 )}
             </div>
         </article>
+    )
+}
+
+/**
+ * 归档页布局 - 增加分类和标签快捷链接
+ */
+const LayoutArchive = props => {
+    const { locale } = useGlobal()
+    return (
+        <div className="container mx-auto px-5 py-10">
+            {/* 顶部展示 Category 和 Tags 的入口 */}
+            <div className='flex flex-wrap justify-center gap-4 mb-10'>
+                <SmartLink href='/category' className='px-6 py-2 bg-white/5 hover:bg-white/10 border border-white/20 text-white rounded-full transition-all'>
+                    <i className="fas fa-folder mr-2"></i>{locale.COMMON.CATEGORY}
+                </SmartLink>
+                <SmartLink href='/tag' className='px-6 py-2 bg-white/5 hover:bg-white/10 border border-white/20 text-white rounded-full transition-all'>
+                    <i className="fas fa-tag mr-2"></i>{locale.COMMON.TAGS}
+                </SmartLink>
+            </div>
+            <Blog {...props} />
+        </div>
     )
 }
 
@@ -194,23 +215,6 @@ const LayoutDashboard = props => (
         <DashboardBody />
     </div>
 )
-
-const LayoutArchive = props => {
-    const { locale } = useGlobal()
-    return (
-        <div className="container mx-auto px-5 py-10">
-            <div className='flex flex-wrap justify-center gap-4 mb-10'>
-                <SmartLink href='/category' className='px-6 py-2 bg-primary/20 hover:bg-primary border border-primary/30 text-white rounded-full transition-all'>
-                    <i className="fas fa-folder mr-2"></i>{locale.COMMON.CATEGORY}
-                </SmartLink>
-                <SmartLink href='/tag' className='px-6 py-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-full transition-all'>
-                    <i className="fas fa-tag mr-2"></i>{locale.COMMON.TAGS}
-                </SmartLink>
-            </div>
-            <Blog {...props} />
-        </div>
-    )
-}
 
 const Layout404 = () => (
     <section className='flex items-center justify-center min-h-[70vh] px-5'>
