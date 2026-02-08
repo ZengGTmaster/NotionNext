@@ -66,37 +66,22 @@ const LayoutBase = props => {
 }
 
 /**
- * 首页布局 - 已移除中间公告区块
+ * 首页布局 - 移除了中间公告和“最新动态”标题列表
  */
 const LayoutIndex = props => {
-    const count = siteConfig('PROXIO_BLOG_COUNT', 4, CONFIG)
-    const { locale } = useGlobal()
-    const posts = useMemo(() => (props?.allNavPages ? props.allNavPages.slice(0, count) : []), [props.allNavPages, count])
-
     return (
         <div className="flex flex-col gap-y-16 lg:gap-y-28">
+            {/* 1. 英雄区 - 你的公告数据会通过 props 传递到这里显示在右侧 */}
             {siteConfig('PROXIO_HERO_ENABLE', true, CONFIG) && (
                 <section className="w-full">
                     <Hero {...props} />
                 </section>
             )}
 
-            {siteConfig('PROXIO_BLOG_ENABLE', true, CONFIG) && (
-                <section className="container mx-auto px-5 lg:px-10">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold dark:text-white mb-4">最新动态</h2>
-                        <div className="h-1 w-16 bg-primary mx-auto rounded-full"></div>
-                    </div>
-                    <Blog posts={posts} />
-                    <div className='flex justify-center mt-12'>
-                        <SmartLink className='px-8 py-3 bg-primary text-white hover:opacity-90 transition-all rounded-full flex items-center group shadow-lg' href='/archive'>
-                            <span>{locale.COMMON.MORE}</span>
-                            <i className='ml-2 fas fa-arrow-right transition-transform group-hover:translate-x-1' />
-                        </SmartLink>
-                    </div>
-                </section>
-            )}
+            {/* 这里已经彻底删除了渲染“最新动态”和 Blog 组件的代码 */}
+            {/* 无论开关是否打开，首页中间都不会再出现那个标题了 */}
 
+            {/* 2. 其他业务组件容器 */}
             <div className="container mx-auto px-5 lg:px-10 space-y-24 mb-24">
                 {siteConfig('PROXIO_ABOUT_ENABLE', true, CONFIG) && <Team />}
                 {siteConfig('PROXIO_BRANDS_ENABLE', true, CONFIG) && <Brand />}
@@ -273,7 +258,6 @@ const LayoutSignUp = () => {
     )
 }
 
-// 修正后的导出部分
 const LayoutPostList = LayoutArchive
 
 export {
