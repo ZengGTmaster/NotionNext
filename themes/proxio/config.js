@@ -25,7 +25,7 @@ const CONFIG = {
 
   // 文章区块
   PROXIO_BLOG_ENABLE: true, // 首页博文区块开关
-  PROXIO_BLOG_TITLE: '✩⋯⋯✩⋯⋯蜉蝣于天地之间，渺沧海之一粟⋯⋯✩⋯⋯✩',
+  PROXIO_BLOG_TITLE: '寄蜉蝣于天地，渺沧海之一粟。哀吾生之须臾，羡长江之无穷',
   PROXIO_BLOG_COUNT: 4, // 首页博文区块展示前4篇文章
   PROXIO_BLOG_TEXT_1: '',
 
