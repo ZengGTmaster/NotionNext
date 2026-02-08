@@ -75,15 +75,12 @@ const LayoutIndex = props => {
 
     return (
         <div className="flex flex-col">
-            
-            {/* 1. 英雄区 */}
             {siteConfig('PROXIO_HERO_ENABLE', true, CONFIG) && (
                 <section className="w-full">
                     <Hero {...props} />
                 </section>
             )}
 
-            {/* 2. 装饰图区域 - 宽度与导航栏对齐 */}
             <section className="container mx-auto px-5 lg:px-10 py-2 flex justify-center">
                 <img 
                     src="/images/wan.png" 
@@ -93,13 +90,10 @@ const LayoutIndex = props => {
                 />
             </section>
 
-            {/* 3. 博客文章展示区 - 保持默认字体样式 */}
             {siteConfig('PROXIO_BLOG_ENABLE', true, CONFIG) && (
                 <section className="container mx-auto px-5 lg:px-10 border-none"> 
                     <div className="py-8">
                         <Blog posts={posts} />
-
-                        {/* 增加更多文章按钮 - 默认配色 */}
                         <div className='flex justify-center mt-12'>
                             <SmartLink 
                                 href='/archive' 
@@ -113,24 +107,54 @@ const LayoutIndex = props => {
                 </section>
             )}
 
-            {/* 4. 其他业务组件 */}
             <div className="container mx-auto px-5 lg:px-10 space-y-8 mb-10 mt-10">
                 {siteConfig('PROXIO_ABOUT_ENABLE', true, CONFIG) && <Team />}
-                {siteConfig('PROXIO_BRANDS_ENABLE', true, CONFIG) && <Brand />}
-                {siteConfig('PROXIO_CAREER_ENABLE', true, CONFIG) && <Career />}
                 {siteConfig('PROXIO_FEATURE_ENABLE', true, CONFIG) && <Features />}
-                {siteConfig('PROXIO_TESTIMONIALS_ENABLE', true, CONFIG) && <Testimonials />}
                 {siteConfig('PROXIO_FAQ_ENABLE', true, CONFIG) && <FAQ />}
-                {siteConfig('PROXIO_CTA_ENABLE', true, CONFIG) && <CTA />}
             </div>
-
-            {siteConfig('PROXIO_WELCOME_COVER_ENABLE', false, CONFIG) && <LoadingCover />}
         </div>
     )
 }
 
 /**
- * 详情页布局
+ * 归档页布局 - 彻底修复无法点击和显示不全的问题
+ */
+const LayoutArchive = props => {
+    const { locale } = useGlobal()
+    // 归档页不限制数量，显示所有已发布的文章
+    const posts = props?.allNavPages || []
+
+    return (
+        <div className="container mx-auto px-5 py-20 min-h-screen">
+            <div className="text-center mb-10">
+                <h2 className="text-4xl font-bold text-white mb-4">全部文章</h2>
+                <p className="text-gray-400">在这里可以查看我过去所有的教学记录与记录</p>
+            </div>
+
+            {/* 分类和标签导航栏 - 确保 SmartLink 路径正确 */}
+            <div className='flex flex-wrap justify-center gap-4 mb-16'>
+                <SmartLink href='/category' className='flex items-center gap-2 px-6 py-2 bg-white/5 hover:bg-primary border border-white/10 hover:border-primary text-white rounded-full transition-all'>
+                    <i className="fas fa-folder text-sm"></i>
+                    <span>{locale.COMMON.CATEGORY}</span>
+                </SmartLink>
+                <SmartLink href='/tag' className='flex items-center gap-2 px-6 py-2 bg-white/5 hover:bg-white/20 border border-white/10 text-white rounded-full transition-all'>
+                    <i className="fas fa-tag text-sm"></i>
+                    <span>{locale.COMMON.TAGS}</span>
+                </SmartLink>
+            </div>
+
+            {/* 调用 Blog 组件渲染文章列表 */}
+            {posts.length > 0 ? (
+                <Blog {...props} posts={posts} />
+            ) : (
+                <div className="text-center text-gray-500 py-20">暂无文章</div>
+            )}
+        </div>
+    )
+}
+
+/**
+ * 其余布局组件 (Slug, Search, Category, Tag 等)
  */
 const LayoutSlug = props => {
     const { post, lock, validPassword } = props
@@ -162,40 +186,10 @@ const LayoutSlug = props => {
     )
 }
 
-/**
- * 归档页布局 - 增加分类和标签快捷链接
- */
-const LayoutArchive = props => {
-    const { locale } = useGlobal()
-    return (
-        <div className="container mx-auto px-5 py-10">
-            {/* 顶部展示 Category 和 Tags 的入口 */}
-            <div className='flex flex-wrap justify-center gap-4 mb-10'>
-                <SmartLink href='/category' className='px-6 py-2 bg-white/5 hover:bg-white/10 border border-white/20 text-white rounded-full transition-all'>
-                    <i className="fas fa-folder mr-2"></i>{locale.COMMON.CATEGORY}
-                </SmartLink>
-                <SmartLink href='/tag' className='px-6 py-2 bg-white/5 hover:bg-white/10 border border-white/20 text-white rounded-full transition-all'>
-                    <i className="fas fa-tag mr-2"></i>{locale.COMMON.TAGS}
-                </SmartLink>
-            </div>
-            <Blog {...props} />
-        </div>
-    )
-}
-
 const LayoutSearch = props => {
     const { keyword } = props
     const router = useRouter()
     const currentSearch = keyword || router?.query?.s
-    useEffect(() => {
-        if (isBrowser && keyword) {
-            replaceSearchResult({
-                doms: document.getElementById('posts-wrapper'),
-                search: keyword,
-                target: { element: 'span', className: 'text-red-500 border-b border-dashed' }
-            })
-        }
-    }, [keyword])
     return (
         <section className='container mx-auto px-5 py-24 min-h-screen'>
             <div className="max-w-4xl mx-auto">
@@ -203,6 +197,44 @@ const LayoutSearch = props => {
                 <div className="mt-12">
                     {currentSearch && <Blog {...props} />}
                 </div>
+            </div>
+        </section>
+    )
+}
+
+const LayoutCategoryIndex = props => {
+    const { categoryOptions } = props
+    const { locale } = useGlobal()
+    return (
+        <section className='container mx-auto px-5 py-24 text-center min-h-screen'>
+            <h2 className='text-white font-bold text-3xl mb-12 block'>{locale.COMMON.CATEGORY}</h2>
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+                {categoryOptions?.map(c => (
+                    <SmartLink key={c.name} href={`/category/${c.name}`} className="group p-8 border border-white/10 rounded-2xl hover:bg-white/5 transition-all">
+                        <i className='fas fa-folder text-primary text-2xl mb-4 block' />
+                        <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors">
+                            {c.name}
+                        </h3>
+                        <span className="text-gray-500 text-sm mt-2 block">{c.count} 篇文章</span>
+                    </SmartLink>
+                ))}
+            </div>
+        </section>
+    )
+}
+
+const LayoutTagIndex = props => {
+    const { tagOptions } = props
+    const { locale } = useGlobal()
+    return (
+        <section className='container mx-auto px-5 py-24 text-center min-h-screen'>
+            <h2 className='text-white font-bold text-3xl mb-12 block'>{locale.COMMON.TAGS}</h2>
+            <div className='flex flex-wrap justify-center gap-4'>
+                {tagOptions.map(t => (
+                    <SmartLink key={t.name} href={`/tag/${encodeURIComponent(t.name)}`} className={`px-6 py-2 rounded-full border border-white/10 hover:bg-primary text-white transition-all`}>
+                        #{t.name} <span className="text-white/50 ml-1">{t.count}</span>
+                    </SmartLink>
+                ))}
             </div>
         </section>
     )
@@ -222,83 +254,18 @@ const Layout404 = () => (
             <div className='w-full md:w-1/2 p-10'>
                 <img src='/images/starter/404.svg' alt='404' className='max-w-full' />
             </div>
-            <div className='w-full md:w-1/2 p-10'>
+            <div className='w-full md:w-1/2 p-10 text-white'>
                 <SVG404 />
-                <h3 className='text-3xl font-bold mt-5 mb-5 dark:text-white'>{siteConfig('PROXIO_404_TITLE')}</h3>
-                <p className='text-gray-600 dark:text-gray-400 mb-8'>{siteConfig('PROXIO_404_TEXT')}</p>
-                <SmartLink href='/' className='inline-block py-3 px-8 bg-primary text-white rounded-md hover:opacity-90 shadow-lg'>
-                    {siteConfig('PROXIO_404_BACK')}
-                </SmartLink>
+                <h3 className='text-3xl font-bold mt-5 mb-5'>{siteConfig('PROXIO_404_TITLE')}</h3>
+                <SmartLink href='/' className='inline-block py-3 px-8 bg-primary text-white rounded-md'>返回首页</SmartLink>
             </div>
         </div>
     </section>
 )
 
-const LayoutCategoryIndex = props => {
-    const { categoryOptions } = props
-    const { locale } = useGlobal()
-    return (
-        <section className='container mx-auto px-5 py-24 text-center'>
-            <span className='text-primary font-bold text-xl mb-10 block'>{locale.COMMON.CATEGORY}</span>
-            <div className='flex flex-wrap justify-center gap-6'>
-                {categoryOptions?.map(c => (
-                    <SmartLink key={c.name} href={`/category/${c.name}`} className="group p-6 border dark:border-gray-800 rounded-xl hover:shadow-xl transition-all hover:-translate-y-1 bg-white dark:bg-dark-2">
-                        <h2 className="text-2xl font-bold dark:text-white group-hover:text-primary transition-colors">
-                            <i className='mr-3 fas fa-folder text-primary' />{c.name} ({c.count})
-                        </h2>
-                    </SmartLink>
-                ))}
-            </div>
-        </section>
-    )
-}
-
-const LayoutTagIndex = props => {
-    const { tagOptions } = props
-    const { locale } = useGlobal()
-    return (
-        <section className='container mx-auto px-5 py-24 text-center'>
-            <span className='text-primary font-bold text-xl mb-10 block'>{locale.COMMON.TAGS}</span>
-            <div className='flex flex-wrap justify-center gap-4'>
-                {tagOptions.map(t => (
-                    <SmartLink key={t.name} href={`/tag/${encodeURIComponent(t.name)}`} className={`px-5 py-2 rounded-full border dark:border-gray-700 hover:bg-primary hover:text-white transition-all notion-${t.color}_background`}>
-                        <i className='mr-2 fas fa-tag' />{t.name} {t.count ? `(${t.count})` : ''}
-                    </SmartLink>
-                ))}
-            </div>
-        </section>
-    )
-}
-
-const AuthWrapper = ({ title, description, children }) => (
-    <div className='grow flex flex-col items-center py-20 px-5'>
-        <div className="text-center mb-10">
-            <h1 className="text-4xl font-bold mb-4 dark:text-white">{title}</h1>
-            <p className="text-gray-500">{description}</p>
-        </div>
-        <div className="w-full max-w-md shadow-2xl rounded-2xl overflow-hidden">{children}</div>
-    </div>
-)
-
-const LayoutSignIn = () => {
-    const enableClerk = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-    return (
-        <AuthWrapper title={siteConfig('PROXIO_SIGNIN', '登录')} description={siteConfig('PROXIO_SIGNIN_DESCRITION')}>
-            {enableClerk ? <SignIn /> : <SignInForm />}
-        </AuthWrapper>
-    )
-}
-
-const LayoutSignUp = () => {
-    const enableClerk = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-    return (
-        <AuthWrapper title={siteConfig('PROXIO_SIGNIN', '注册')} description={siteConfig('PROXIO_SIGNIN_DESCRITION')}>
-            {enableClerk ? <SignUp /> : <SignUpForm />}
-        </AuthWrapper>
-    )
-}
-
 const LayoutPostList = LayoutArchive
+const LayoutSignIn = () => <div className="py-20 text-center text-white">Sign In Page</div>
+const LayoutSignUp = () => <div className="py-20 text-center text-white">Sign Up Page</div>
 
 export {
     Layout404, LayoutArchive, LayoutBase, LayoutCategoryIndex, LayoutDashboard,
