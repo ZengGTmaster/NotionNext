@@ -3,7 +3,6 @@ import { BeiAnGongAn } from '@/components/BeiAnGongAn'
 import BeiAnSite from '@/components/BeiAnSite'
 import CopyRightDate from '@/components/CopyRightDate'
 import DarkModeButton from '@/components/DarkModeButton'
-import LazyImage from '@/components/LazyImage'
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
 import SmartLink from '@/components/SmartLink'
@@ -14,7 +13,6 @@ import SocialButton from './SocialButton'
  * 网页底脚
  */
 export const Footer = ({ title }) => {
-  const { siteInfo } = useGlobal()
   const PROXIO_FOOTER_LINKS = siteConfig('PROXIO_FOOTER_LINKS', [], CONFIG)
 
   return (
@@ -25,9 +23,9 @@ export const Footer = ({ title }) => {
         {/* 信息与链接区块 */}
         <div className='w-full flex lg:flex-row flex-col justify-between py-16'>
           <div className='gap-y-2 flex flex-col items-start dark:text-gray-200'>
+            <div className='flex gap-x-1'>
               <h1 className='text-lg'>{title}</h1>
-              <span
-                className='underline font-bold justify-start'>
+              <span className='underline font-bold justify-start'>
                 {siteConfig('AUTHOR')}
               </span>
             </div>
@@ -60,7 +58,7 @@ export const Footer = ({ title }) => {
         </div>
 
         {/* 页脚 */}
-        <div className='dark:text-gray-200 py-4 flex flex-col lg:flex-row  justify-between items-center border-t border-gray-600'>
+        <div className='dark:text-gray-200 py-4 flex flex-col lg:flex-row justify-between items-center border-t border-gray-600'>
           <div className='flex gap-x-2 flex-wrap justify-between items-center'>
             <CopyRightDate />
           </div>
