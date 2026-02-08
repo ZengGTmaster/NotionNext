@@ -57,6 +57,7 @@ const LayoutBase = props => {
             <main id='main-wrapper' className='grow w-full'>
                 {children}
             </main>
+            {/* 这里的 Footer 线条如果还有，是在 Footer.js 组件内定义的 */}
             <Footer {...props} />
             <BackToTopButton />
             <Lenis />
@@ -66,7 +67,7 @@ const LayoutBase = props => {
 }
 
 /**
- * 首页布局 - 已移除“最新动态”字样和“更多”按钮，但保留了 6 个博文卡片
+ * 首页布局 - 重点：大幅缩减间距（gap 和 space-y）
  */
 const LayoutIndex = props => {
     // 强制设定显示 6 个博文
@@ -74,26 +75,27 @@ const LayoutIndex = props => {
     const posts = useMemo(() => (props?.allNavPages ? props.allNavPages.slice(0, count) : []), [props.allNavPages, count])
 
     return (
-        <div className="flex flex-col gap-y-16 lg:gap-y-28">
-            {/* 1. 英雄区 (Hero) */}
+        // 修改点：gap-y 由原来的 16/28 缩减到了 4/8，让 Hero 和 博文区靠得更近
+        <div className="flex flex-col gap-y-4 lg:gap-y-8">
+            
+            {/* 1. 英雄区 */}
             {siteConfig('PROXIO_HERO_ENABLE', true, CONFIG) && (
                 <section className="w-full">
                     <Hero {...props} />
                 </section>
             )}
 
-            {/* 2. 博客文章展示区 - 修正版 */}
+            {/* 2. 博客文章展示区 - 移除 padding 缩减空白 */}
             {siteConfig('PROXIO_BLOG_ENABLE', true, CONFIG) && (
-                <section className="container mx-auto px-5 lg:px-10">
-                    {/* 这里不再渲染“最新动态”标题文字 */}
-                    <div className="pt-10">
+                <section className="container mx-auto px-5 lg:px-10 border-none"> 
+                    <div className="py-2"> {/* py-4 缩减为 py-2 */}
                         <Blog posts={posts} />
                     </div>
                 </section>
             )}
 
-            {/* 3. 其他业务组件容器 */}
-            <div className="container mx-auto px-5 lg:px-10 space-y-24 mb-24">
+            {/* 3. 其他业务组件容器 - space-y 从 24 缩减到 8，mb-24 缩减到 mb-10 */}
+            <div className="container mx-auto px-5 lg:px-10 space-y-8 mb-10">
                 {siteConfig('PROXIO_ABOUT_ENABLE', true, CONFIG) && <Team />}
                 {siteConfig('PROXIO_BRANDS_ENABLE', true, CONFIG) && <Brand />}
                 {siteConfig('PROXIO_CAREER_ENABLE', true, CONFIG) && <Career />}
@@ -109,7 +111,7 @@ const LayoutIndex = props => {
 }
 
 /**
- * 其余部分保持不变
+ * 其余布局逻辑保持一致...
  */
 const LayoutSlug = props => {
     const { post, lock, validPassword } = props
