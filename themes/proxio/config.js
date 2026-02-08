@@ -35,7 +35,7 @@ const CONFIG = {
   PROXIO_BLOG_PLACEHOLDER_IMG_URL_3: '',
   PROXIO_BLOG_PLACEHOLDER_IMG_URL_4: '',
 
-  PROXIO_ANNOUNCEMENT_ENABLE: true, //公告文字区块
+  PROXIO_ANNOUNCEMENT_ENABLE: false, //公告文字区块
 
   // 特性区块
   PROXIO_FEATURE_ENABLE: false, // 特性区块开关
