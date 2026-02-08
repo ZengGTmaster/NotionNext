@@ -66,22 +66,33 @@ const LayoutBase = props => {
 }
 
 /**
- * 首页布局 - 移除了中间公告和“最新动态”标题列表
+ * 首页布局 - 已移除“最新动态”字样和“更多”按钮，但保留了 6 个博文卡片
  */
 const LayoutIndex = props => {
+    // 强制设定显示 6 个博文
+    const count = 6 
+    const posts = useMemo(() => (props?.allNavPages ? props.allNavPages.slice(0, count) : []), [props.allNavPages, count])
+
     return (
         <div className="flex flex-col gap-y-16 lg:gap-y-28">
-            {/* 1. 英雄区 - 你的公告数据会通过 props 传递到这里显示在右侧 */}
+            {/* 1. 英雄区 (Hero) */}
             {siteConfig('PROXIO_HERO_ENABLE', true, CONFIG) && (
                 <section className="w-full">
                     <Hero {...props} />
                 </section>
             )}
 
-            {/* 这里已经彻底删除了渲染“最新动态”和 Blog 组件的代码 */}
-            {/* 无论开关是否打开，首页中间都不会再出现那个标题了 */}
+            {/* 2. 博客文章展示区 - 修正版 */}
+            {siteConfig('PROXIO_BLOG_ENABLE', true, CONFIG) && (
+                <section className="container mx-auto px-5 lg:px-10">
+                    {/* 这里不再渲染“最新动态”标题文字 */}
+                    <div className="pt-10">
+                        <Blog posts={posts} />
+                    </div>
+                </section>
+            )}
 
-            {/* 2. 其他业务组件容器 */}
+            {/* 3. 其他业务组件容器 */}
             <div className="container mx-auto px-5 lg:px-10 space-y-24 mb-24">
                 {siteConfig('PROXIO_ABOUT_ENABLE', true, CONFIG) && <Team />}
                 {siteConfig('PROXIO_BRANDS_ENABLE', true, CONFIG) && <Brand />}
@@ -98,21 +109,18 @@ const LayoutIndex = props => {
 }
 
 /**
- * 文章详情页布局
+ * 其余部分保持不变
  */
 const LayoutSlug = props => {
     const { post, lock, validPassword } = props
     const router = useRouter()
-
     useEffect(() => {
         if (!post && siteConfig('PROXIO_POST_REDIRECT_ENABLE') && isBrowser && router.route === '/[prefix]/[slug]') {
             const redirectUrl = siteConfig('PROXIO_POST_REDIRECT_URL') + router.asPath.replace('?theme=landing', '')
             router.push(redirectUrl)
         }
     }, [post, router])
-
     if (!post && siteConfig('PROXIO_POST_REDIRECT_ENABLE')) return <div id='theme-proxio'><Loading /></div>
-
     return (
         <article className="w-full">
             <Banner title={post?.title} description={post?.summary} />
@@ -133,14 +141,10 @@ const LayoutSlug = props => {
     )
 }
 
-/**
- * 搜索页
- */
 const LayoutSearch = props => {
     const { keyword } = props
     const router = useRouter()
     const currentSearch = keyword || router?.query?.s
-
     useEffect(() => {
         if (isBrowser && keyword) {
             replaceSearchResult({
@@ -150,7 +154,6 @@ const LayoutSearch = props => {
             })
         }
     }, [keyword])
-
     return (
         <section className='container mx-auto px-5 py-24 min-h-screen'>
             <div className="max-w-4xl mx-auto">
@@ -163,9 +166,6 @@ const LayoutSearch = props => {
     )
 }
 
-/**
- * 仪表盘
- */
 const LayoutDashboard = props => (
     <div className='container mx-auto px-5 py-10'>
         {props.post && <NotionPage {...props} />}
