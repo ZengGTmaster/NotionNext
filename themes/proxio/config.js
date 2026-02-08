@@ -40,29 +40,29 @@ const CONFIG = {
   // 特性区块
   PROXIO_FEATURE_ENABLE: true, // 特性区块开关
   PROXIO_FEATURE_TITLE: '为什么选我',
-  PROXIO_FEATURE_TEXT_1: '我能让您的项目焕发光彩',
-  PROXIO_FEATURE_TEXT_2: '丰富的案例经验，专业的技术服务，优质的沟通效率',
+  PROXIO_FEATURE_TEXT_1: '我能针对每个人制定学习课程和训练，',
+  PROXIO_FEATURE_TEXT_2: '丰富的教学经验，扎实的基本功，专业的吉他技能，我有十足的耐心',
 
   // 特性1
   PROXIO_FEATURE_1_ICON_CLASS: 'fa-solid fa-stopwatch', // fas图标
   PROXIO_FEATURE_1_ICON_IMG_URL: '', // 图片图标选填，默认是fas图标，如果需要图片图标可以填写图片地址，示例/avatar.png
-  PROXIO_FEATURE_1_TITLE_1: '高效工作流程',
+  PROXIO_FEATURE_1_TITLE_1: '时间成本',
   PROXIO_FEATURE_1_TEXT_1:
-    '精简的设计流程确保快速交付，在紧迫的工期下仍能保证品质与细节不打折扣。',
+    '沟通高效、即时行动，不在无意义的事情上浪费时光，节约你的时间。',
 
   PROXIO_FEATURE_2_ICON_CLASS: 'fa-solid fa-comments',
   PROXIO_FEATURE_2_ICON_IMG_URL: '',
-  PROXIO_FEATURE_2_TITLE_1: '协作式流程',
-  PROXIO_FEATURE_2_TEXT_1: '与你紧密合作，融合反馈意见，打造超越预期的设计',
+  PROXIO_FEATURE_2_TITLE_1: '专注专业',
+  PROXIO_FEATURE_2_TEXT_1: '一对一教学，工作时间全身心在放学员身上，获得物有所值的服务。',
 
   PROXIO_FEATURE_3_ICON_CLASS: 'fa-solid fa-search',
   PROXIO_FEATURE_3_ICON_IMG_URL: '',
-  PROXIO_FEATURE_3_TITLE_1: '细节把控',
+  PROXIO_FEATURE_3_TITLE_1: '课外延展',
   PROXIO_FEATURE_3_TEXT_1:
-    '精益求精雕琢每个元素，确保成品精致统一，令人过目难忘',
+    '了解学生，在适当的时机给予一些安全、品德、生活经验等教育，不只是卖课赚钱',
 
-  PROXIO_FEATURE_BUTTON_TEXT: '了解更多', // 按钮文字
-  PROXIO_FEATURE_BUTTON_URL: 'https://github.com/tangly1024/NotionNext', // 按钮跳转
+  PROXIO_FEATURE_BUTTON_TEXT: '了解更多（暂时空）', // 按钮文字
+  PROXIO_FEATURE_BUTTON_URL: 'https://www.mskyer.com', // 按钮跳转
 
   // 首页生涯区块
   PROXIO_CAREER_ENABLE: false, // 区块开关
@@ -154,7 +154,7 @@ const CONFIG = {
   ],
 
   //   FAQ 常见问题模块
-  PROXIO_FAQ_ENABLE: true, // 常见问题模块开关
+  PROXIO_FAQ_ENABLE: false, // 常见问题模块开关
   PROXIO_FAQ_TITLE: '常见问题解答',
   PROXIO_FAQ_TEXT_1: '有任何问题吗？请看这里',
   PROXIO_FAQ_TEXT_2: '我们收集了常见的用户疑问',
