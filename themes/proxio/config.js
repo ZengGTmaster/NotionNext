@@ -219,7 +219,7 @@ const CONFIG = {
   PROXIO_404_BACK: '回到主页',
 
   // 页面底部的行动呼吁模块
-  PROXIO_CTA_ENABLE: true,
+  PROXIO_CTA_ENABLE: false,
   PROXIO_CTA_TITLE: '与我建立联系',
   PROXIO_CTA_TITLE_2: '微信：18989133114 坐标：成都',
   PROXIO_CTA_DESCRIPTION:
