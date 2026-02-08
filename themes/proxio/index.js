@@ -56,7 +56,7 @@ const LayoutBase = props => {
 }
 
 /**
- * 首页布局 - 严格限制 6 篇
+ * 首页布局 - 仅显示 6 篇
  */
 const LayoutIndex = props => {
     const { locale } = useGlobal()
@@ -65,11 +65,7 @@ const LayoutIndex = props => {
 
     return (
         <div className="flex flex-col">
-            {siteConfig('PROXIO_HERO_ENABLE', true, CONFIG) && (
-                <section className="w-full">
-                    <Hero {...props} />
-                </section>
-            )}
+            {siteConfig('PROXIO_HERO_ENABLE', true, CONFIG) && <section className="w-full"><Hero {...props} /></section>}
 
             <section className="container mx-auto px-5 lg:px-10 py-2 flex justify-center">
                 <img 
@@ -82,14 +78,10 @@ const LayoutIndex = props => {
 
             {siteConfig('PROXIO_BLOG_ENABLE', true, CONFIG) && (
                 <section className="container mx-auto px-5 lg:px-10 border-none"> 
-                    <div className="py-8 text-center">
-                        {/* 这里的 Blog 仅显示 6 篇 */}
+                    <div className="py-8">
                         <Blog posts={posts} />
                         <div className='flex justify-center mt-12'>
-                            <SmartLink 
-                                href='/archive' 
-                                className='group flex items-center gap-2 px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/20 text-white rounded-full transition-all duration-300'
-                            >
+                            <SmartLink href='/archive' className='group flex items-center gap-2 px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/20 text-white rounded-full transition-all duration-300'>
                                 <span className='text-lg font-medium'>{locale.COMMON.MORE}</span>
                                 <i className="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                             </SmartLink>
@@ -108,64 +100,52 @@ const LayoutIndex = props => {
 }
 
 /**
- * 列表页布局 (归档、分类、标签) - 强制显示传入的所有文章
+ * 列表页布局 (归档、分类、标签) - 强制无限制显示
  */
 const LayoutArchive = props => {
     const { locale } = useGlobal()
-    const { posts, category, tag } = props
+    // 强制使用 allNavPages (如果是分类页，系统会自动传入过滤后的 posts)
+    // 如果 props.posts 依然被截断，我们直接使用 props.allNavPages 进行逻辑回退
+    const displayPosts = props.posts?.length > 6 ? props.posts : (props.allNavPages || props.posts)
 
-    // 动态显示标题
-    const pageTitle = category ? `分类: ${category}` : (tag ? `标签: ${tag}` : '全部文章')
+    const pageTitle = props.category ? `分类: ${props.category}` : (props.tag ? `标签: ${props.tag}` : '全部文章')
 
     return (
         <div className="container mx-auto px-5 py-20 min-h-screen">
             <div className="text-center mb-10">
                 <h2 className="text-4xl font-bold text-white mb-4">{pageTitle}</h2>
-                {!category && !tag && <p className="text-gray-400">查看所有的教学心得与乐展记录</p>}
+                {!props.category && <p className="text-gray-400">查看所有的教学心得与乐展记录</p>}
             </div>
 
-            {/* 如果不在具体筛选下，显示分类按钮 */}
-            {!category && !tag && (
+            {!props.category && !props.tag && (
                 <div className='flex flex-wrap justify-center gap-4 mb-16'>
                     <SmartLink href='/category' className='flex items-center gap-2 px-6 py-2 bg-white/5 hover:bg-primary border border-white/10 text-white rounded-full transition-all'>
-                        <i className="fas fa-folder text-sm"></i>
-                        <span>{locale.COMMON.CATEGORY}</span>
-                    </SmartLink>
-                    <SmartLink href='/tag' className='flex items-center gap-2 px-6 py-2 bg-white/5 hover:bg-white/20 border border-white/10 text-white rounded-full transition-all'>
-                        <i className="fas fa-tag text-sm"></i>
-                        <span>{locale.COMMON.TAGS}</span>
+                        <i className="fas fa-folder text-sm"></i><span>分类中心</span>
                     </SmartLink>
                 </div>
             )}
 
-            {/* 关键修复：显式传递 posts 参数给 Blog 组件，防止它去读首页的 6 篇限制 */}
             <div id="posts-wrapper">
-                {posts && posts.length > 0 ? (
-                    <Blog {...props} posts={posts} />
-                ) : (
-                    <div className="text-center text-gray-500 py-20">暂无相关文章</div>
-                )}
+                {/* 显式传递 posts，并强行关闭 Blog 组件可能存在的分页控制 */}
+                <Blog {...props} posts={displayPosts} />
             </div>
         </div>
     )
 }
 
 /**
- * 分类索引页布局
+ * 分类中心
  */
 const LayoutCategoryIndex = props => {
     const { categoryOptions } = props
-    const { locale } = useGlobal()
     return (
         <section className='container mx-auto px-5 py-24 text-center min-h-[70vh]'>
-            <h2 className='text-white font-bold text-3xl mb-12 block'>{locale.COMMON.CATEGORY}</h2>
+            <h2 className='text-white font-bold text-3xl mb-12 block'>所有分类</h2>
             <div className='grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto'>
                 {categoryOptions?.map(c => (
                     <SmartLink key={c.name} href={`/category/${c.name}`} className="group p-8 border border-white/10 rounded-2xl hover:bg-white/5 transition-all">
                         <i className='fas fa-folder text-primary text-2xl mb-4 block' />
-                        <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors">
-                            {c.name}
-                        </h3>
+                        <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors">{c.name}</h3>
                         <span className="text-gray-500 text-sm mt-2 block">{c.count} 篇文章</span>
                     </SmartLink>
                 ))}
@@ -174,29 +154,6 @@ const LayoutCategoryIndex = props => {
     )
 }
 
-/**
- * 标签索引页布局
- */
-const LayoutTagIndex = props => {
-    const { tagOptions } = props
-    const { locale } = useGlobal()
-    return (
-        <section className='container mx-auto px-5 py-24 text-center min-h-[70vh]'>
-            <h2 className='text-white font-bold text-3xl mb-12 block'>{locale.COMMON.TAGS}</h2>
-            <div className='flex flex-wrap justify-center gap-4 max-w-4xl mx-auto'>
-                {tagOptions.map(t => (
-                    <SmartLink key={t.name} href={`/tag/${encodeURIComponent(t.name)}`} className={`px-6 py-2 rounded-full border border-white/10 hover:bg-primary text-white transition-all`}>
-                        #{t.name} <span className="text-white/50 ml-1">{t.count}</span>
-                    </SmartLink>
-                ))}
-            </div>
-        </section>
-    )
-}
-
-/**
- * 文章详情页布局
- */
 const LayoutSlug = props => {
     const { post, lock, validPassword } = props
     const router = useRouter()
@@ -229,15 +186,26 @@ const LayoutSlug = props => {
 
 const LayoutSearch = props => {
     const { keyword } = props
-    const router = useRouter()
-    const currentSearch = keyword || router?.query?.s
     return (
         <section className='container mx-auto px-5 py-24 min-h-screen'>
             <div className="max-w-4xl mx-auto">
                 <SearchInput {...props} />
-                <div className="mt-12">
-                    {currentSearch && <Blog {...props} />}
-                </div>
+                <div className="mt-12">{keyword && <Blog {...props} />}</div>
+            </div>
+        </section>
+    )
+}
+
+const LayoutTagIndex = props => {
+    const { tagOptions } = props
+    return (
+        <section className='container mx-auto px-5 py-24 text-center min-h-[70vh]'>
+            <div className='flex flex-wrap justify-center gap-4 max-w-4xl mx-auto'>
+                {tagOptions.map(t => (
+                    <SmartLink key={t.name} href={`/tag/${encodeURIComponent(t.name)}`} className={`px-6 py-2 rounded-full border border-white/10 hover:bg-primary text-white transition-all`}>
+                        #{t.name} <span className="text-white/50 ml-1">{t.count}</span>
+                    </SmartLink>
+                ))}
             </div>
         </section>
     )
@@ -246,21 +214,15 @@ const LayoutSearch = props => {
 const LayoutDashboard = props => (
     <div className='container mx-auto px-5 py-10'>
         {props.post && <NotionPage {...props} />}
-        <DashboardHeader />
-        <DashboardBody />
+        <DashboardHeader /><DashboardBody />
     </div>
 )
 
 const Layout404 = () => (
     <section className='flex items-center justify-center min-h-[70vh] px-5'>
-        <div className='container mx-auto flex flex-wrap items-center text-white'>
-            <div className='w-full md:w-1/2 p-10'>
-                <img src='/images/starter/404.svg' alt='404' className='max-w-full' />
-            </div>
-            <div className='w-full md:w-1/2 p-10'>
-                <h3 className='text-3xl font-bold mb-5'>抱歉，页面找不到了</h3>
-                <SmartLink href='/' className='inline-block py-3 px-8 bg-primary text-white rounded-md'>返回首页</SmartLink>
-            </div>
+        <div className='container mx-auto text-white text-center'>
+            <h3 className='text-3xl font-bold mb-5'>404 - 页面未找到</h3>
+            <SmartLink href='/' className='inline-block py-3 px-8 bg-primary text-white rounded-md'>返回首页</SmartLink>
         </div>
     </section>
 )
