@@ -4,7 +4,7 @@ import { siteConfig } from '@/lib/config'
 import SmartLink from '@/components/SmartLink'
 
 /**
- * 博文列表 - 修复 Vercel 编译报错版本
+ * 博文列表 - 彻底修复 6 篇显示限制版本
  */
 export const Blog = ({ posts }) => {
   const enable = siteConfig('PROXIO_BLOG_ENABLE')
@@ -21,31 +21,21 @@ export const Blog = ({ posts }) => {
   ]
 
   return (
-    <section className='bg-white pt-20 dark:bg-dark lg:pt-[120px]'>
+    <section className='bg-white pt-10 dark:bg-dark lg:pt-10'>
       <div className='container mx-auto px-4'>
-        {/* 区块标题 */}
-        <div className='flex flex-wrap justify-center'>
-          <div className='w-full py-4 text-center space-y-4'>
-            <span className='px-3 py-0.5 rounded-2xl mb-2 dark:bg-dark-1 border border-gray-200 dark:border-[#333333] dark:text-white'>
-              {siteConfig('PROXIO_BLOG_TITLE')}
-            </span>
-            <h2 className='text-3xl font-bold text-dark dark:text-white sm:text-4xl'>
-              {siteConfig('PROXIO_BLOG_TEXT_1')}
-            </h2>
-          </div>
-        </div>
-
-        {/* 博客列表：一行 3 个 (md:grid-cols-3) */}
+        {/* 博客列表：由传入的 posts 决定显示多少篇 */}
         <div className='grid grid-cols-1 md:grid-cols-3 gap-8 mt-10'>
-          {posts?.slice(0, 6).map((item, index) => {
-            const finalImg = item.pageCoverThumbnail || item.pageCover || placeholders[index]
+          {posts?.map((item, index) => {
+            // 循环使用占位图，防止 index 溢出
+            const placeholderImg = placeholders[index % placeholders.length]
+            const finalImg = item.pageCoverThumbnail || item.pageCover || placeholderImg
 
             return (
               <div key={index} className='group relative'>
                 <div className='relative rounded-xl border overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 dark:border-gray-700 dark:bg-gray-800'>
                   <SmartLink href={item?.href} className='block relative w-full'>
                     
-                    {/* 使用兼容性更好的比例控制：4:3 比例 (75% padding) */}
+                    {/* 4:3 比例控制 */}
                     <div className='relative w-full' style={{ paddingBottom: '75%' }}>
                       {finalImg ? (
                         <LazyImage
@@ -74,7 +64,7 @@ export const Blog = ({ posts }) => {
                 <div className='pt-4 px-1'>
                   <span className='text-[10px] text-gray-500 uppercase tracking-widest'>{item.publishDay}</span>
                   <h3>
-                    <SmartLink href={item?.href} className='mt-1 block text-lg font-bold text-dark hover:text-primary dark:text-white transition-colors line-clamp-1'>
+                    <SmartLink href={item?.href} className='mt-1 block text-lg font-bold text-dark hover:text-primary dark:text-white transition-colors line-clamp-1 text-left'>
                       {item.title}
                     </SmartLink>
                   </h3>
