@@ -38,7 +38,7 @@ const CONFIG = {
   PROXIO_ANNOUNCEMENT_ENABLE: true, //公告文字区块
 
   // 特性区块
-  PROXIO_FEATURE_ENABLE: false, // 特性区块开关
+  PROXIO_FEATURE_ENABLE: true, // 特性区块开关
   PROXIO_FEATURE_TITLE: '为什么选我',
   PROXIO_FEATURE_TEXT_1: '我能让您的项目焕发光彩',
   PROXIO_FEATURE_TEXT_2: '丰富的案例经验，专业的技术服务，优质的沟通效率',
@@ -154,7 +154,7 @@ const CONFIG = {
   ],
 
   //   FAQ 常见问题模块
-  PROXIO_FAQ_ENABLE: false, // 常见问题模块开关
+  PROXIO_FAQ_ENABLE: true, // 常见问题模块开关
   PROXIO_FAQ_TITLE: '常见问题解答',
   PROXIO_FAQ_TEXT_1: '有任何问题吗？请看这里',
   PROXIO_FAQ_TEXT_2: '我们收集了常见的用户疑问',
