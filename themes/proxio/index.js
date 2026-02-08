@@ -45,7 +45,7 @@ const LayoutBase = props => {
 }
 
 /**
- * 首页布局
+ * 首页布局 - 已修复组件开关逻辑
  */
 const LayoutIndex = props => {
     const { locale } = useGlobal()
@@ -53,10 +53,15 @@ const LayoutIndex = props => {
 
     return (
         <div className="flex flex-col">
+            {/* Hero 模块 */}
             {siteConfig('PROXIO_HERO_ENABLE', true, CONFIG) && <section className="w-full"><Hero {...props} /></section>}
+            
+            {/* 装饰图片 */}
             <section className="container mx-auto px-5 lg:px-10 py-2 flex justify-center">
                 <img src="/images/wan.png" alt="decoration" className="w-full max-w-screen-xl h-auto object-contain opacity-90" />
             </section>
+
+            {/* 博客列表模块 */}
             <section className="container mx-auto px-5 lg:px-10 border-none pb-20 text-center"> 
                 <Blog posts={posts} />
                 <div className='flex justify-center mt-12'>
@@ -66,8 +71,17 @@ const LayoutIndex = props => {
                     </SmartLink>
                 </div>
             </section>
+
+            {/* 底部功能区块：增加开关判断 */}
             <div className="container mx-auto px-5 lg:px-10 space-y-8 mb-10">
-                <Team /><Features /><FAQ />
+                {/* 关于作者/团队模块 */}
+                {siteConfig('PROXIO_ABOUT_ENABLE', true, CONFIG) && <Team />}
+                
+                {/* 特色功能模块 */}
+                {siteConfig('PROXIO_FEATURE_ENABLE', true, CONFIG) && <Features />}
+                
+                {/* 关键修复：常见问题模块开关 */}
+                {siteConfig('PROXIO_FAQ_ENABLE', true, CONFIG) && <FAQ />}
             </div>
         </div>
     )
