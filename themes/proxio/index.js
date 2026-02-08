@@ -84,14 +84,16 @@ const LayoutIndex = props => {
             )}
 
             {/* 2. 装饰图区域 - wan.png */}
-            <section className="w-full flex justify-center py-2">
-                <img 
-                    src="/images/wan.png" 
-                    alt="decoration" 
-                    className="w-full max-w-[400px] h-auto object-contain opacity-80" 
-                    // 这里 max-w-[400px] 限制了图片最大宽度，您可以根据喜好修改数字
-                />
-            </section>
+{/* 2. 装饰图区域 - 调整为撑满内容区域宽度 */}
+<section className="container mx-auto px-5 lg:px-10 py-2 flex justify-center">
+    <img 
+        src="/images/wan.png" 
+        alt="decoration" 
+        className="w-full max-w-screen-xl h-auto object-contain opacity-90" 
+        // 这里的 max-w-screen-xl 会让图片最大宽度与你的页头/页脚对齐
+        onError={(e) => { e.target.style.display = 'none' }} 
+    />
+</section>
 
             {/* 3. 博客文章展示区 */}
             {siteConfig('PROXIO_BLOG_ENABLE', true, CONFIG) && (
