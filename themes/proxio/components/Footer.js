@@ -10,7 +10,7 @@ import CONFIG from '../config'
 import SocialButton from './SocialButton'
 
 /**
- * 网页底脚 - 紧凑优化版
+ * 网页底脚 - 彻底移除多余横线版
  */
 export const Footer = ({ title }) => {
   const PROXIO_FOOTER_LINKS = siteConfig('PROXIO_FOOTER_LINKS', [], CONFIG)
@@ -18,14 +18,12 @@ export const Footer = ({ title }) => {
   return (
     <footer
       id='footer-bottom'
-      // 1. 缩减整体 p-6 为 py-4 px-6
       className='z-10 justify-center m-auto w-full py-4 px-6 relative container'>
       
-      {/* 2. 限制最大宽度为 6xl (1152px)，防止大屏下链接分得太开 */}
       <div className='max-w-6xl w-full mx-auto '>
         
-        {/* 信息与链接区块：3. 缩减 py-16 为 py-8 */}
-        <div className='w-full flex lg:flex-row flex-col justify-between py-8 border-t border-gray-100 dark:border-gray-800'>
+        {/* 信息与链接区块 - 已移除 border-t 横线 */}
+        <div className='w-full flex lg:flex-row flex-col justify-between py-6'>
           <div className='gap-y-1 flex flex-col items-start dark:text-gray-200'>
             <div className='flex gap-x-1 items-baseline'>
               <h1 className='text-base font-bold'>{title}</h1>
@@ -37,33 +35,34 @@ export const Footer = ({ title }) => {
           </div>
 
           {/* 右侧链接区块 */}
-          <div className='flex gap-x-12 mt-6 lg:mt-0'>
-            {PROXIO_FOOTER_LINKS?.map((group, index) => {
-              return (
-                <div key={index}>
-                  {/* 4. 缩减标题字号并减小下边距 lg:pb-8 -> pb-2 */}
-                  <div className='font-bold text-sm dark:text-white pb-2 uppercase tracking-widest'>
-                    {group.name}
-                  </div>
-                  <div className='flex flex-col gap-y-1'>
-                    {group?.menus?.map((menu, index) => {
-                      return (
-                        <div key={index}>
-                          <SmartLink href={menu.href} className='text-xs hover:text-primary dark:text-gray-400 transition-colors'>
-                            {menu.title}
-                          </SmartLink>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
+          {PROXIO_FOOTER_LINKS?.length > 0 && (
+            <div className='flex gap-x-12 mt-6 lg:mt-0'>
+                {PROXIO_FOOTER_LINKS?.map((group, index) => {
+                return (
+                    <div key={index}>
+                    <div className='font-bold text-sm dark:text-white pb-2 uppercase tracking-widest'>
+                        {group.name}
+                    </div>
+                    <div className='flex flex-col gap-y-1'>
+                        {group?.menus?.map((menu, index) => {
+                        return (
+                            <div key={index}>
+                            <SmartLink href={menu.href} className='text-xs hover:text-primary dark:text-gray-400 transition-colors'>
+                                {menu.title}
+                            </SmartLink>
+                            </div>
+                        )
+                        })}
+                    </div>
+                    </div>
+                )
+                })}
+            </div>
+          )}
         </div>
 
-        {/* 页脚版权条：5. 缩减 py-4 为 py-2 */}
-        <div className='dark:text-gray-400 py-2 flex flex-col lg:flex-row justify-between items-center border-t border-gray-100 dark:border-gray-800 text-[10px]'>
+        {/* 页脚版权条 - 已移除 border-t 横线，并微调间距 */}
+        <div className='dark:text-gray-400 py-4 flex flex-col lg:flex-row justify-between items-center text-[10px]'>
           <div className='flex gap-x-2 flex-wrap justify-between items-center'>
             <CopyRightDate />
           </div>
