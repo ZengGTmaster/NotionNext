@@ -4,7 +4,6 @@ import BeiAnSite from '@/components/BeiAnSite'
 import CopyRightDate from '@/components/CopyRightDate'
 import DarkModeButton from '@/components/DarkModeButton'
 import LazyImage from '@/components/LazyImage'
-import PoweredBy from '@/components/PoweredBy'
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
 import SmartLink from '@/components/SmartLink'
@@ -39,7 +38,6 @@ export const Footer = ({ title }) => {
                 {siteConfig('AUTHOR')}
               </span>
             </div>
-            <div className='px-1'>{siteConfig('DESCRIPTION')}</div>
             <div className='px-1'>{siteConfig('CONTACT_EMAIL')}</div>
           </div>
 
@@ -72,7 +70,6 @@ export const Footer = ({ title }) => {
         <div className='dark:text-gray-200 py-4 flex flex-col lg:flex-row  justify-between items-center border-t border-gray-600'>
           <div className='flex gap-x-2 flex-wrap justify-between items-center'>
             <CopyRightDate />
-            <PoweredBy />
           </div>
 
           <DarkModeButton className='dark:text-white' />
