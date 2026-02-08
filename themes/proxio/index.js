@@ -44,7 +44,7 @@ import CursorDot from '@/components/CursorDot'
 import LoadingCover from './components/LoadingCover'
 
 /**
- * 布局框架 - 修正全局容器
+ * 布局框架
  */
 const LayoutBase = props => {
     const { children } = props
@@ -54,7 +54,6 @@ const LayoutBase = props => {
         <div id='theme-proxio' className={`${siteConfig('FONT_STYLE')} min-h-screen flex flex-col dark:bg-dark scroll-smooth overflow-x-hidden`}>
             <Style />
             <Header {...props} />
-            {/* 统一主要内容区域的宽度和对齐 */}
             <main id='main-wrapper' className='grow w-full'>
                 {children}
             </main>
@@ -67,7 +66,7 @@ const LayoutBase = props => {
 }
 
 /**
- * 首页布局 - 重点优化：解决对齐凌乱、重心偏移
+ * 首页布局 - 已移除中间公告区块
  */
 const LayoutIndex = props => {
     const count = siteConfig('PROXIO_BLOG_COUNT', 4, CONFIG)
@@ -76,14 +75,12 @@ const LayoutIndex = props => {
 
     return (
         <div className="flex flex-col gap-y-16 lg:gap-y-28">
-            {/* 1. 英雄区：视觉中心 */}
             {siteConfig('PROXIO_HERO_ENABLE', true, CONFIG) && (
                 <section className="w-full">
                     <Hero {...props} />
                 </section>
             )}
 
-            {/* 2. 博客文章：解决图片卡片不对齐 */}
             {siteConfig('PROXIO_BLOG_ENABLE', true, CONFIG) && (
                 <section className="container mx-auto px-5 lg:px-10">
                     <div className="text-center mb-12">
@@ -100,16 +97,6 @@ const LayoutIndex = props => {
                 </section>
             )}
 
-            {/* 3. 文字公告：解决偏斜问题，独立成行居中 */}
-            {siteConfig('PROXIO_ANNOUNCEMENT_ENABLE', true, CONFIG) && (
-                <section className="w-full bg-gray-50 dark:bg-dark-2 py-20 border-y dark:border-gray-800">
-                    <div className="container mx-auto px-5 max-w-4xl text-center">
-                        <Announcement post={props?.notice} className="text-lg leading-loose tracking-widest" />
-                    </div>
-                </section>
-            )}
-
-            {/* 4. 其他组件：统一放入对齐容器 */}
             <div className="container mx-auto px-5 lg:px-10 space-y-24 mb-24">
                 {siteConfig('PROXIO_ABOUT_ENABLE', true, CONFIG) && <Team />}
                 {siteConfig('PROXIO_BRANDS_ENABLE', true, CONFIG) && <Brand />}
@@ -162,7 +149,7 @@ const LayoutSlug = props => {
 }
 
 /**
- * 搜索布局 - 修正对齐
+ * 搜索页
  */
 const LayoutSearch = props => {
     const { keyword } = props
@@ -192,7 +179,7 @@ const LayoutSearch = props => {
 }
 
 /**
- * 仪表盘布局
+ * 仪表盘
  */
 const LayoutDashboard = props => (
     <div className='container mx-auto px-5 py-10'>
@@ -204,9 +191,6 @@ const LayoutDashboard = props => (
 
 const LayoutArchive = props => <div className="py-10"><Blog {...props} /></div>
 
-/**
- * 404 页面布局
- */
 const Layout404 = () => (
     <section className='flex items-center justify-center min-h-[70vh] px-5'>
         <div className='container mx-auto flex flex-wrap items-center'>
@@ -225,9 +209,6 @@ const Layout404 = () => (
     </section>
 )
 
-/**
- * 分类/标签 索引页优化
- */
 const LayoutCategoryIndex = props => {
     const { categoryOptions } = props
     const { locale } = useGlobal()
@@ -264,9 +245,6 @@ const LayoutTagIndex = props => {
     )
 }
 
-/**
- * 登录/注册
- */
 const AuthWrapper = ({ title, description, children }) => (
     <div className='grow flex flex-col items-center py-20 px-5'>
         <div className="text-center mb-10">
@@ -295,8 +273,11 @@ const LayoutSignUp = () => {
     )
 }
 
+// 修正后的导出部分
+const LayoutPostList = LayoutArchive
+
 export {
     Layout404, LayoutArchive, LayoutBase, LayoutCategoryIndex, LayoutDashboard,
-    LayoutIndex, LayoutPostList: LayoutArchive, LayoutSearch, LayoutSignIn,
+    LayoutIndex, LayoutPostList, LayoutSearch, LayoutSignIn,
     LayoutSignUp, LayoutSlug, LayoutTagIndex, CONFIG as THEME_CONFIG
 }
