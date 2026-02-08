@@ -1,20 +1,10 @@
-import SmartLink from '@/components/SmartLink'
-// import { siteConfig } from '@/lib/config'
-import LazyImage from '@/components/LazyImage';
+import React from 'react'
 
 /**
- * Logo图标
- * @param {*} props
- * @returns
+ * 隐藏左上角 Logo 和文字
  */
-export default function LogoBar (props) {
-  const { siteInfo } = props
-  return (
-    <div id='top-wrapper' className='w-full flex items-center'>
-          <SmartLink href='/' className='text-md md:text-xl dark:text-gray-200 r'>
-            <LazyImage className='h-12 mr-3' src={siteInfo?.icon}/>
-          </SmartLink>
-          {/* <div>{siteConfig('TITLE')}</div> */}
-    </div>
-  );
+const Logo = () => {
+  return null
 }
+
+export default Logo
