@@ -44,26 +44,20 @@ import CursorDot from '@/components/CursorDot'
 import LoadingCover from './components/LoadingCover'
 
 /**
- * 布局框架
+ * 布局框架 - 修正全局容器
  */
 const LayoutBase = props => {
     const { children } = props
-
-    useEffect(() => {
-        loadWowJS()
-    }, [])
+    useEffect(() => { loadWowJS() }, [])
 
     return (
-        <div
-            id='theme-proxio'
-            className={`${siteConfig('FONT_STYLE')} min-h-screen flex flex-col dark:bg-dark scroll-smooth`}>
+        <div id='theme-proxio' className={`${siteConfig('FONT_STYLE')} min-h-screen flex flex-col dark:bg-dark scroll-smooth overflow-x-hidden`}>
             <Style />
             <Header {...props} />
-
-            <main id='main-wrapper' className='grow'>
+            {/* 统一主要内容区域的宽度和对齐 */}
+            <main id='main-wrapper' className='grow w-full'>
                 {children}
             </main>
-
             <Footer {...props} />
             <BackToTopButton />
             <Lenis />
@@ -73,7 +67,7 @@ const LayoutBase = props => {
 }
 
 /**
- * 首页布局
+ * 首页布局 - 重点优化：解决对齐凌乱、重心偏移
  */
 const LayoutIndex = props => {
     const count = siteConfig('PROXIO_BLOG_COUNT', 4, CONFIG)
@@ -81,34 +75,53 @@ const LayoutIndex = props => {
     const posts = useMemo(() => (props?.allNavPages ? props.allNavPages.slice(0, count) : []), [props.allNavPages, count])
 
     return (
-        <>
-            {siteConfig('PROXIO_HERO_ENABLE', true, CONFIG) && <Hero {...props} />}
-            
+        <div className="flex flex-col gap-y-16 lg:gap-y-28">
+            {/* 1. 英雄区：视觉中心 */}
+            {siteConfig('PROXIO_HERO_ENABLE', true, CONFIG) && (
+                <section className="w-full">
+                    <Hero {...props} />
+                </section>
+            )}
+
+            {/* 2. 博客文章：解决图片卡片不对齐 */}
             {siteConfig('PROXIO_BLOG_ENABLE', true, CONFIG) && (
-                <>
+                <section className="container mx-auto px-5 lg:px-10">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl font-bold dark:text-white mb-4">最新动态</h2>
+                        <div className="h-1 w-16 bg-primary mx-auto rounded-full"></div>
+                    </div>
                     <Blog posts={posts} />
-                    <div className='container mx-auto flex justify-end mb-8'>
-                        <SmartLink className='text-lg underline flex items-center group' href='/archive'>
-                            {locale.COMMON.MORE}
+                    <div className='flex justify-center mt-12'>
+                        <SmartLink className='px-8 py-3 bg-primary text-white hover:opacity-90 transition-all rounded-full flex items-center group shadow-lg' href='/archive'>
+                            <span>{locale.COMMON.MORE}</span>
                             <i className='ml-2 fas fa-arrow-right transition-transform group-hover:translate-x-1' />
                         </SmartLink>
                     </div>
-                </>
+                </section>
             )}
 
+            {/* 3. 文字公告：解决偏斜问题，独立成行居中 */}
             {siteConfig('PROXIO_ANNOUNCEMENT_ENABLE', true, CONFIG) && (
-                <Announcement post={props?.notice} className='announcement text-center py-16' />
+                <section className="w-full bg-gray-50 dark:bg-dark-2 py-20 border-y dark:border-gray-800">
+                    <div className="container mx-auto px-5 max-w-4xl text-center">
+                        <Announcement post={props?.notice} className="text-lg leading-loose tracking-widest" />
+                    </div>
+                </section>
             )}
 
-            {siteConfig('PROXIO_ABOUT_ENABLE', true, CONFIG) && <Team />}
-            {siteConfig('PROXIO_BRANDS_ENABLE', true, CONFIG) && <Brand />}
-            {siteConfig('PROXIO_CAREER_ENABLE', true, CONFIG) && <Career />}
-            {siteConfig('PROXIO_FEATURE_ENABLE', true, CONFIG) && <Features />}
-            {siteConfig('PROXIO_TESTIMONIALS_ENABLE', true, CONFIG) && <Testimonials />}
-            {siteConfig('PROXIO_FAQ_ENABLE', true, CONFIG) && <FAQ />}
-            {siteConfig('PROXIO_CTA_ENABLE', true, CONFIG) && <CTA />}
+            {/* 4. 其他组件：统一放入对齐容器 */}
+            <div className="container mx-auto px-5 lg:px-10 space-y-24 mb-24">
+                {siteConfig('PROXIO_ABOUT_ENABLE', true, CONFIG) && <Team />}
+                {siteConfig('PROXIO_BRANDS_ENABLE', true, CONFIG) && <Brand />}
+                {siteConfig('PROXIO_CAREER_ENABLE', true, CONFIG) && <Career />}
+                {siteConfig('PROXIO_FEATURE_ENABLE', true, CONFIG) && <Features />}
+                {siteConfig('PROXIO_TESTIMONIALS_ENABLE', true, CONFIG) && <Testimonials />}
+                {siteConfig('PROXIO_FAQ_ENABLE', true, CONFIG) && <FAQ />}
+                {siteConfig('PROXIO_CTA_ENABLE', true, CONFIG) && <CTA />}
+            </div>
+
             {siteConfig('PROXIO_WELCOME_COVER_ENABLE', false, CONFIG) && <LoadingCover />}
-        </>
+        </div>
     )
 }
 
@@ -126,58 +139,30 @@ const LayoutSlug = props => {
         }
     }, [post, router])
 
-    if (!post && siteConfig('PROXIO_POST_REDIRECT_ENABLE')) {
-        return <div id='theme-proxio'><Loading /></div>
-    }
+    if (!post && siteConfig('PROXIO_POST_REDIRECT_ENABLE')) return <div id='theme-proxio'><Loading /></div>
 
     return (
-        <>
+        <article className="w-full">
             <Banner title={post?.title} description={post?.summary} />
-            <div className='container grow mx-auto'>
-                <div className='flex flex-wrap justify-center -mx-4'>
-                    <div id='container-inner' className='w-full p-4'>
-                        {lock ? (
-                            <ArticleLock validPassword={validPassword} />
-                        ) : (
-                            post && (
-                                <article id='article-wrapper' className='mx-auto'>
-                                    <NotionPage {...props} />
-                                    <Comment frontMatter={post} />
-                                    <ShareBar post={post} />
-                                </article>
-                            )
-                        )}
-                    </div>
-                </div>
-            </div>
-        </>
-    )
-}
-
-/**
- * 仪表盘
- */
-const LayoutDashboard = props => {
-    const { post } = props
-    return (
-        <div className='container grow mx-auto'>
-            <div className='flex flex-wrap justify-center -mx-4'>
-                <div id='container-inner' className='w-full p-4'>
-                    {post && (
+            <div className='container mx-auto px-5 py-10 max-w-5xl'>
+                {lock ? <ArticleLock validPassword={validPassword} /> : (
+                    post && (
                         <div id='article-wrapper' className='mx-auto'>
                             <NotionPage {...props} />
+                            <div className="mt-10 border-t pt-10">
+                                <Comment frontMatter={post} />
+                                <ShareBar post={post} />
+                            </div>
                         </div>
-                    )}
-                </div>
+                    )
+                )}
             </div>
-            <DashboardHeader />
-            <DashboardBody />
-        </div>
+        </article>
     )
 }
 
 /**
- * 搜索
+ * 搜索布局 - 修正对齐
  */
 const LayoutSearch = props => {
     const { keyword } = props
@@ -189,56 +174,17 @@ const LayoutSearch = props => {
             replaceSearchResult({
                 doms: document.getElementById('posts-wrapper'),
                 search: keyword,
-                target: {
-                    element: 'span',
-                    className: 'text-red-500 border-b border-dashed'
-                }
+                target: { element: 'span', className: 'text-red-500 border-b border-dashed' }
             })
         }
     }, [keyword])
 
     return (
-        <section className='max-w-7xl mx-auto bg-white pb-10 pt-20 dark:bg-dark lg:pb-20 lg:pt-[120px]'>
-            <SearchInput {...props} />
-            {currentSearch && <Blog {...props} />}
-        </section>
-    )
-}
-
-/**
- * 文章归档
- */
-const LayoutArchive = props => <Blog {...props} />
-
-/**
- * 404页面
- */
-const Layout404 = () => {
-    return (
-        <section className='bg-white py-20 dark:bg-dark-2 lg:py-[110px]'>
-            <div className='container mx-auto'>
-                <div className='flex flex-wrap items-center -mx-4'>
-                    <div className='w-full px-4 md:w-5/12 lg:w-6/12'>
-                        <div className='text-center'>
-                            <img src='/images/starter/404.svg' alt='404' className='max-w-full mx-auto' />
-                        </div>
-                    </div>
-                    <div className='w-full px-4 md:w-7/12 lg:w-6/12 xl:w-5/12'>
-                        <div>
-                            <div className='mb-8'><SVG404 /></div>
-                            <h3 className='mb-5 text-2xl font-semibold text-dark dark:text-white'>
-                                {siteConfig('PROXIO_404_TITLE')}
-                            </h3>
-                            <p className='mb-8 text-base text-body-color dark:text-dark-6'>
-                                {siteConfig('PROXIO_404_TEXT')}
-                            </p>
-                            <SmartLink
-                                href='/'
-                                className='py-3 text-base font-medium text-white transition rounded-md bg-dark px-7 hover:bg-primary'>
-                                {siteConfig('PROXIO_404_BACK')}
-                            </SmartLink>
-                        </div>
-                    </div>
+        <section className='container mx-auto px-5 py-24 min-h-screen'>
+            <div className="max-w-4xl mx-auto">
+                <SearchInput {...props} />
+                <div className="mt-12">
+                    {currentSearch && <Blog {...props} />}
                 </div>
             </div>
         </section>
@@ -246,142 +192,95 @@ const Layout404 = () => {
 }
 
 /**
- * 博客列表页 (分类/标签筛选后的列表)
+ * 仪表盘布局
  */
-const LayoutPostList = props => {
-    const { posts, category, tag } = props
-    const slotTitle = category || tag
+const LayoutDashboard = props => (
+    <div className='container mx-auto px-5 py-10'>
+        {props.post && <NotionPage {...props} />}
+        <DashboardHeader />
+        <DashboardBody />
+    </div>
+)
 
-    return (
-        <section className='bg-white pb-10 pt-20 dark:bg-dark lg:pb-20 lg:pt-[120px]'>
-            <div className='container mx-auto'>
-                <div className='-mx-4 flex flex-wrap justify-center'>
-                    <div className='w-full px-4 text-center mb-[60px] max-w-[485px] mx-auto'>
-                        {slotTitle ? (
-                            <h2 className='mb-4 text-3xl font-bold text-dark dark:text-white sm:text-4xl md:text-[40px]'>
-                                {slotTitle}
-                            </h2>
-                        ) : (
-                            <>
-                                <span className='mb-2 block text-lg font-semibold text-primary'>
-                                    {siteConfig('PROXIO_BLOG_TITLE')}
-                                </span>
-                                <h2 className='mb-4 text-3xl font-bold text-dark dark:text-white sm:text-4xl md:text-[40px]'>
-                                    {siteConfig('PROXIO_BLOG_TEXT_1')}
-                                </h2>
-                            </>
-                        )}
-                    </div>
-                </div>
-                <div className='-mx-4 flex flex-wrap'>
-                    {posts?.map((item, index) => (
-                        <div key={item.id || index} className='w-full px-4 md:w-1/2 lg:w-1/3'>
-                            <div className='wow fadeInUp group mb-10' data-wow-delay='.1s'>
-                                <div className='mb-8 overflow-hidden rounded-[5px]'>
-                                    <SmartLink href={item?.href} className='block'>
-                                        <img
-                                            src={item.pageCoverThumbnail}
-                                            alt={item.title}
-                                            className='w-full transition group-hover:rotate-6 group-hover:scale-125'
-                                        />
-                                    </SmartLink>
-                                </div>
-                                <div>
-                                    <span className='mb-6 inline-block rounded-[5px] bg-primary px-4 py-0.5 text-xs font-medium text-white'>
-                                        {item.publishDay}
-                                    </span>
-                                    <h3>
-                                        <SmartLink
-                                            href={item?.href}
-                                            className='mb-4 inline-block text-xl font-semibold text-dark hover:text-primary dark:text-white dark:hover:text-primary sm:text-2xl'>
-                                            {item.title}
-                                        </SmartLink>
-                                    </h3>
-                                    <p className='text-base text-body-color dark:text-dark-6 line-clamp-3'>
-                                        {item.summary}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </section>
-    )
-}
+const LayoutArchive = props => <div className="py-10"><Blog {...props} /></div>
 
 /**
- * 分类列表
+ * 404 页面布局
+ */
+const Layout404 = () => (
+    <section className='flex items-center justify-center min-h-[70vh] px-5'>
+        <div className='container mx-auto flex flex-wrap items-center'>
+            <div className='w-full md:w-1/2 p-10'>
+                <img src='/images/starter/404.svg' alt='404' className='max-w-full' />
+            </div>
+            <div className='w-full md:w-1/2 p-10'>
+                <SVG404 />
+                <h3 className='text-3xl font-bold mt-5 mb-5 dark:text-white'>{siteConfig('PROXIO_404_TITLE')}</h3>
+                <p className='text-gray-600 dark:text-gray-400 mb-8'>{siteConfig('PROXIO_404_TEXT')}</p>
+                <SmartLink href='/' className='inline-block py-3 px-8 bg-primary text-white rounded-md hover:opacity-90 shadow-lg'>
+                    {siteConfig('PROXIO_404_BACK')}
+                </SmartLink>
+            </div>
+        </div>
+    </section>
+)
+
+/**
+ * 分类/标签 索引页优化
  */
 const LayoutCategoryIndex = props => {
     const { categoryOptions } = props
     const { locale } = useGlobal()
     return (
-        <section className='bg-white pb-10 pt-20 dark:bg-dark lg:pb-20 lg:pt-[120px]'>
-            <div className='container mx-auto min-h-96 text-center'>
-                <span className='mb-2 text-lg font-semibold text-primary block'>
-                    {locale.COMMON.CATEGORY}
-                </span>
-                <div id='category-list' className='flex flex-wrap justify-center gap-4 mt-8'>
-                    {categoryOptions?.map(category => (
-                        <SmartLink key={category.name} href={`/category/${category.name}`}>
-                            <div className='hover:text-black text-2xl font-semibold text-dark dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-600 px-5 py-2 hover:bg-gray-100 transition-all cursor-pointer rounded-lg border dark:border-gray-700'>
-                                <i className='mr-4 fas fa-folder text-primary' />
-                                {category.name} ({category.count})
-                            </div>
-                        </SmartLink>
-                    ))}
-                </div>
+        <section className='container mx-auto px-5 py-24 text-center'>
+            <span className='text-primary font-bold text-xl mb-10 block'>{locale.COMMON.CATEGORY}</span>
+            <div className='flex flex-wrap justify-center gap-6'>
+                {categoryOptions?.map(c => (
+                    <SmartLink key={c.name} href={`/category/${c.name}`} className="group p-6 border dark:border-gray-800 rounded-xl hover:shadow-xl transition-all hover:-translate-y-1 bg-white dark:bg-dark-2">
+                        <h2 className="text-2xl font-bold dark:text-white group-hover:text-primary transition-colors">
+                            <i className='mr-3 fas fa-folder text-primary' />{c.name} ({c.count})
+                        </h2>
+                    </SmartLink>
+                ))}
             </div>
         </section>
     )
 }
 
-/**
- * 标签列表
- */
 const LayoutTagIndex = props => {
     const { tagOptions } = props
     const { locale } = useGlobal()
     return (
-        <section className='bg-white pb-10 pt-20 dark:bg-dark lg:pb-20 lg:pt-[120px]'>
-            <div className='container mx-auto min-h-96 text-center'>
-                <span className='mb-2 text-lg font-semibold text-primary block'>
-                    {locale.COMMON.TAGS}
-                </span>
-                <div id='tags-list' className='flex flex-wrap justify-center gap-3 mt-8'>
-                    {tagOptions.map(tag => (
-                        <SmartLink key={tag.name} href={`/tag/${encodeURIComponent(tag.name)}`}>
-                            <div className={`cursor-pointer inline-block rounded-full px-4 py-2 text-sm transition-all hover:shadow-lg dark:bg-gray-800 border dark:border-gray-700 notion-${tag.color}_background`}>
-                                <i className='mr-1 fas fa-tag' />
-                                {tag.name} {tag.count ? `(${tag.count})` : ''}
-                            </div>
-                        </SmartLink>
-                    ))}
-                </div>
+        <section className='container mx-auto px-5 py-24 text-center'>
+            <span className='text-primary font-bold text-xl mb-10 block'>{locale.COMMON.TAGS}</span>
+            <div className='flex flex-wrap justify-center gap-4'>
+                {tagOptions.map(t => (
+                    <SmartLink key={t.name} href={`/tag/${encodeURIComponent(t.name)}`} className={`px-5 py-2 rounded-full border dark:border-gray-700 hover:bg-primary hover:text-white transition-all notion-${t.color}_background`}>
+                        <i className='mr-2 fas fa-tag' />{t.name} {t.count ? `(${t.count})` : ''}
+                    </SmartLink>
+                ))}
             </div>
         </section>
     )
 }
 
 /**
- * 登录/注册共用 Banner 辅助组件
+ * 登录/注册
  */
 const AuthWrapper = ({ title, description, children }) => (
-    <div className='grow mt-20'>
-        <Banner title={title} description={description} />
-        <div className='flex justify-center py-12'>
-            {children}
+    <div className='grow flex flex-col items-center py-20 px-5'>
+        <div className="text-center mb-10">
+            <h1 className="text-4xl font-bold mb-4 dark:text-white">{title}</h1>
+            <p className="text-gray-500">{description}</p>
         </div>
+        <div className="w-full max-w-md shadow-2xl rounded-2xl overflow-hidden">{children}</div>
     </div>
 )
 
 const LayoutSignIn = () => {
     const enableClerk = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
     return (
-        <AuthWrapper 
-            title={siteConfig('PROXIO_SIGNIN', '登录')} 
-            description={siteConfig('PROXIO_SIGNIN_DESCRITION', '演示页面，目前不提供会员功能')}>
+        <AuthWrapper title={siteConfig('PROXIO_SIGNIN', '登录')} description={siteConfig('PROXIO_SIGNIN_DESCRITION')}>
             {enableClerk ? <SignIn /> : <SignInForm />}
         </AuthWrapper>
     )
@@ -390,26 +289,14 @@ const LayoutSignIn = () => {
 const LayoutSignUp = () => {
     const enableClerk = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
     return (
-        <AuthWrapper 
-            title={siteConfig('PROXIO_SIGNIN', '注册')} 
-            description={siteConfig('PROXIO_SIGNIN_DESCRITION', '演示页面，目前不提供会员功能')}>
+        <AuthWrapper title={siteConfig('PROXIO_SIGNIN', '注册')} description={siteConfig('PROXIO_SIGNIN_DESCRITION')}>
             {enableClerk ? <SignUp /> : <SignUpForm />}
         </AuthWrapper>
     )
 }
 
 export {
-    Layout404,
-    LayoutArchive,
-    LayoutBase,
-    LayoutCategoryIndex,
-    LayoutDashboard,
-    LayoutIndex,
-    LayoutPostList,
-    LayoutSearch,
-    LayoutSignIn,
-    LayoutSignUp,
-    LayoutSlug,
-    LayoutTagIndex,
-    CONFIG as THEME_CONFIG
+    Layout404, LayoutArchive, LayoutBase, LayoutCategoryIndex, LayoutDashboard,
+    LayoutIndex, LayoutPostList: LayoutArchive, LayoutSearch, LayoutSignIn,
+    LayoutSignUp, LayoutSlug, LayoutTagIndex, CONFIG as THEME_CONFIG
 }
