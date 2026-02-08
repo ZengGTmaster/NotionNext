@@ -66,10 +66,9 @@ const LayoutBase = props => {
 }
 
 /**
- * 首页布局 - 在英雄区和博文区之间插入了装饰图 wan.png
+ * 首页布局
  */
 const LayoutIndex = props => {
-    // 强制设定显示 6 个博文
     const count = 6 
     const posts = useMemo(() => (props?.allNavPages ? props.allNavPages.slice(0, count) : []), [props.allNavPages, count])
 
@@ -83,22 +82,36 @@ const LayoutIndex = props => {
                 </section>
             )}
 
-            {/* 2. 装饰图区域 - wan.png */}
-{/* 2. 装饰图区域 - 调整为撑满内容区域宽度 */}
-<section className="container mx-auto px-5 lg:px-10 py-2 flex justify-center">
-    <img 
-        src="/images/wan.png" 
-        alt="decoration" 
-        className="w-full max-w-screen-xl h-auto object-contain opacity-90" 
-        // 这里的 max-w-screen-xl 会让图片最大宽度与你的页头/页脚对齐
-        onError={(e) => { e.target.style.display = 'none' }} 
-    />
-</section>
+            {/* 2. 装饰图区域 - 宽度与边界对齐 */}
+            <section className="container mx-auto px-5 lg:px-10 py-2 flex justify-center">
+                <img 
+                    src="/images/wan.png" 
+                    alt="decoration" 
+                    className="w-full max-w-screen-xl h-auto object-contain opacity-90" 
+                    onError={(e) => { e.target.style.display = 'none' }} 
+                />
+            </section>
 
-            {/* 3. 博客文章展示区 */}
+            {/* 3. 博客文章展示区 - 注入金色大标题样式 */}
             {siteConfig('PROXIO_BLOG_ENABLE', true, CONFIG) && (
                 <section className="container mx-auto px-5 lg:px-10 border-none"> 
-                    <div className="py-2">
+                    <div className="py-8">
+                        {/* 强制修改标题样式的 CSS */}
+                        <style jsx global>{`
+                            #theme-proxio section h2 { 
+                                color: #FFD700 !important; /* 经典金色 */
+                                font-size: 2.2rem !important; 
+                                line-height: 1.6 !important;
+                                font-weight: 700 !important;
+                                text-align: center !important;
+                                margin-bottom: 2.5rem !important;
+                                text-shadow: 0 0 10px rgba(255, 215, 0, 0.3) !important; /* 文字微光效果 */
+                                letter-spacing: 0.1em !important;
+                            }
+                            @media (min-width: 1024px) {
+                                #theme-proxio section h2 { font-size: 3.2rem !important; }
+                            }
+                        `}</style>
                         <Blog posts={posts} />
                     </div>
                 </section>
@@ -136,7 +149,7 @@ const LayoutSlug = props => {
     return (
         <article className="w-full">
             <Banner title={post?.title} description={post?.summary} />
-            <div className='container mx-auto px-5 py-10 max-w-5xl'>
+            <div className='container mx-auto px-5 py-10 max-w-6xl'>
                 {lock ? <ArticleLock validPassword={validPassword} /> : (
                     post && (
                         <div id='article-wrapper' className='mx-auto'>
