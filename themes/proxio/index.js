@@ -11,14 +11,12 @@ import { useEffect, useMemo } from 'react'
 import { Career } from './components/Career'
 import { BackToTopButton } from './components/BackToTopButton'
 import { Blog } from './components/Blog'
-import { Brand } from './components/Brand'
-import { FAQ } from './components/FAQ'
 import { Features } from './components/Features'
 import { Footer } from './components/Footer'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { Team } from './components/Team'
-import { Testimonials } from './components/Testimonials'
+import { FAQ } from './components/FAQ'
 import CONFIG from './config'
 import { Style } from './style'
 import Comment from '@/components/Comment'
@@ -28,15 +26,10 @@ import DashboardBody from '@/components/ui/dashboard/DashboardBody'
 import DashboardHeader from '@/components/ui/dashboard/DashboardHeader'
 import { useGlobal } from '@/lib/global'
 import { loadWowJS } from '@/lib/plugins/wow'
-import { SignIn, SignUp } from '@clerk/nextjs'
 import SmartLink from '@/components/SmartLink'
 import { ArticleLock } from './components/ArticleLock'
 import { Banner } from './components/Banner'
-import { CTA } from './components/CTA'
 import SearchInput from './components/SearchInput'
-import { SignInForm } from './components/SignInForm'
-import { SignUpForm } from './components/SignUpForm'
-import { SVG404 } from './components/svg/SVG404'
 import Lenis from '@/components/Lenis'
 import CursorDot from '@/components/CursorDot'
 
@@ -63,7 +56,7 @@ const LayoutBase = props => {
 }
 
 /**
- * 首页布局
+ * 首页布局 - 严格限制 6 篇
  */
 const LayoutIndex = props => {
     const { locale } = useGlobal()
@@ -89,7 +82,8 @@ const LayoutIndex = props => {
 
             {siteConfig('PROXIO_BLOG_ENABLE', true, CONFIG) && (
                 <section className="container mx-auto px-5 lg:px-10 border-none"> 
-                    <div className="py-8">
+                    <div className="py-8 text-center">
+                        {/* 这里的 Blog 仅显示 6 篇 */}
                         <Blog posts={posts} />
                         <div className='flex justify-center mt-12'>
                             <SmartLink 
@@ -114,26 +108,26 @@ const LayoutIndex = props => {
 }
 
 /**
- * 归档/列表页布局 - 修复分类点击跳转逻辑
+ * 列表页布局 (归档、分类、标签) - 强制显示传入的所有文章
  */
 const LayoutArchive = props => {
     const { locale } = useGlobal()
     const { posts, category, tag } = props
 
-    // 如果是具体的分类页或标签页，显示对应的标题
-    const pageTitle = category ? `${locale.COMMON.CATEGORY}: ${category}` : (tag ? `${locale.COMMON.TAGS}: ${tag}` : '全部文章')
+    // 动态显示标题
+    const pageTitle = category ? `分类: ${category}` : (tag ? `标签: ${tag}` : '全部文章')
 
     return (
         <div className="container mx-auto px-5 py-20 min-h-screen">
             <div className="text-center mb-10">
                 <h2 className="text-4xl font-bold text-white mb-4">{pageTitle}</h2>
-                {!category && !tag && <p className="text-gray-400">在这里可以查看我过去所有的教学记录与记录</p>}
+                {!category && !tag && <p className="text-gray-400">查看所有的教学心得与乐展记录</p>}
             </div>
 
-            {/* 只有在总归档页才显示分类/标签大按钮 */}
+            {/* 如果不在具体筛选下，显示分类按钮 */}
             {!category && !tag && (
                 <div className='flex flex-wrap justify-center gap-4 mb-16'>
-                    <SmartLink href='/category' className='flex items-center gap-2 px-6 py-2 bg-white/5 hover:bg-primary border border-white/10 hover:border-primary text-white rounded-full transition-all'>
+                    <SmartLink href='/category' className='flex items-center gap-2 px-6 py-2 bg-white/5 hover:bg-primary border border-white/10 text-white rounded-full transition-all'>
                         <i className="fas fa-folder text-sm"></i>
                         <span>{locale.COMMON.CATEGORY}</span>
                     </SmartLink>
@@ -144,17 +138,20 @@ const LayoutArchive = props => {
                 </div>
             )}
 
-            {posts && posts.length > 0 ? (
-                <Blog {...props} posts={posts} />
-            ) : (
-                <div className="text-center text-gray-500 py-20">暂无文章</div>
-            )}
+            {/* 关键修复：显式传递 posts 参数给 Blog 组件，防止它去读首页的 6 篇限制 */}
+            <div id="posts-wrapper">
+                {posts && posts.length > 0 ? (
+                    <Blog {...props} posts={posts} />
+                ) : (
+                    <div className="text-center text-gray-500 py-20">暂无相关文章</div>
+                )}
+            </div>
         </div>
     )
 }
 
 /**
- * 分类列表索引页
+ * 分类索引页布局
  */
 const LayoutCategoryIndex = props => {
     const { categoryOptions } = props
@@ -178,7 +175,7 @@ const LayoutCategoryIndex = props => {
 }
 
 /**
- * 标签列表索引页
+ * 标签索引页布局
  */
 const LayoutTagIndex = props => {
     const { tagOptions } = props
@@ -256,13 +253,12 @@ const LayoutDashboard = props => (
 
 const Layout404 = () => (
     <section className='flex items-center justify-center min-h-[70vh] px-5'>
-        <div className='container mx-auto flex flex-wrap items-center'>
+        <div className='container mx-auto flex flex-wrap items-center text-white'>
             <div className='w-full md:w-1/2 p-10'>
                 <img src='/images/starter/404.svg' alt='404' className='max-w-full' />
             </div>
-            <div className='w-full md:w-1/2 p-10 text-white'>
-                <SVG404 />
-                <h3 className='text-3xl font-bold mt-5 mb-5'>{siteConfig('PROXIO_404_TITLE')}</h3>
+            <div className='w-full md:w-1/2 p-10'>
+                <h3 className='text-3xl font-bold mb-5'>抱歉，页面找不到了</h3>
                 <SmartLink href='/' className='inline-block py-3 px-8 bg-primary text-white rounded-md'>返回首页</SmartLink>
             </div>
         </div>
@@ -270,8 +266,8 @@ const Layout404 = () => (
 )
 
 const LayoutPostList = LayoutArchive
-const LayoutSignIn = () => <div className="py-20 text-center text-white">Sign In Page</div>
-const LayoutSignUp = () => <div className="py-20 text-center text-white">Sign Up Page</div>
+const LayoutSignIn = () => <div className="py-20 text-center text-white">Sign In</div>
+const LayoutSignUp = () => <div className="py-20 text-center text-white">Sign Up</div>
 
 export {
     Layout404, LayoutArchive, LayoutBase, LayoutCategoryIndex, LayoutDashboard,
