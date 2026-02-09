@@ -5,10 +5,8 @@
 import Loading from '@/components/Loading'
 import NotionPage from '@/components/NotionPage'
 import { siteConfig } from '@/lib/config'
-import { isBrowser } from '@/lib/utils'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo } from 'react'
-import { Career } from './components/Career'
 import { BackToTopButton } from './components/BackToTopButton'
 import { Blog } from './components/Blog'
 import { Features } from './components/Features'
@@ -20,8 +18,6 @@ import { FAQ } from './components/FAQ'
 import CONFIG from './config'
 import { Style } from './style'
 import Comment from '@/components/Comment'
-import replaceSearchResult from '@/components/Mark'
-import ShareBar from '@/components/ShareBar'
 import DashboardBody from '@/components/ui/dashboard/DashboardBody'
 import DashboardHeader from '@/components/ui/dashboard/DashboardHeader'
 import { useGlobal } from '@/lib/global'
@@ -45,11 +41,21 @@ const LayoutBase = props => {
 }
 
 /**
- * 首页布局 - 已修复组件开关逻辑
+ * 首页布局 - 包含排序逻辑修复与组件开关
  */
 const LayoutIndex = props => {
     const { locale } = useGlobal()
-    const posts = useMemo(() => (props?.allNavPages ? props.allNavPages.slice(0, 6) : []), [props.allNavPages])
+    
+    // 关键：根据 Notion 里的排序字段(如 01, 02)进行主动排序
+    const posts = useMemo(() => {
+        if (!props?.allNavPages) return []
+        return [...props.allNavPages].sort((a, b) => {
+            // 尝试读取排序属性，支持数字或字符串形式的 01, 02
+            const sortA = parseInt(a?.properties?.order || a?.properties?.排序 || 999)
+            const sortB = parseInt(b?.properties?.order || b?.properties?.排序 || 999)
+            return sortA - sortB
+        }).slice(0, 6)
+    }, [props.allNavPages])
 
     return (
         <div className="flex flex-col">
@@ -72,15 +78,10 @@ const LayoutIndex = props => {
                 </div>
             </section>
 
-            {/* 底部功能区块：增加开关判断 */}
+            {/* 底部功能区块开关 */}
             <div className="container mx-auto px-5 lg:px-10 space-y-8 mb-10">
-                {/* 关于作者/团队模块 */}
                 {siteConfig('PROXIO_ABOUT_ENABLE', true, CONFIG) && <Team />}
-                
-                {/* 特色功能模块 */}
                 {siteConfig('PROXIO_FEATURE_ENABLE', true, CONFIG) && <Features />}
-                
-                {/* 关键修复：常见问题模块开关 */}
                 {siteConfig('PROXIO_FAQ_ENABLE', true, CONFIG) && <FAQ />}
             </div>
         </div>
@@ -88,7 +89,7 @@ const LayoutIndex = props => {
 }
 
 /**
- * 归档/列表页布局 - 修复分类按钮显示逻辑
+ * 归档/列表页布局
  */
 const LayoutArchive = props => {
     const { posts, category, tag } = props
@@ -96,12 +97,10 @@ const LayoutArchive = props => {
 
     return (
         <div className="container mx-auto px-5 py-20 min-h-screen text-center">
-            {/* 标题显示 */}
             <h2 className="text-4xl font-bold text-white mb-6">
                 {category ? `分类: ${category}` : (tag ? `标签: ${tag}` : '全部文章')}
             </h2>
 
-            {/* 逻辑：如果没有选择具体分类/标签，则显示分类选择大按钮 */}
             {!category && !tag ? (
                 <div className='flex flex-wrap justify-center gap-6 mb-16'>
                     <SmartLink href='/category' className='flex items-center gap-3 px-8 py-3 bg-white/10 hover:bg-primary border border-white/20 text-white rounded-xl transition-all shadow-lg'>
@@ -114,7 +113,6 @@ const LayoutArchive = props => {
                     </SmartLink>
                 </div>
             ) : (
-                /* 如果已经在分类里，显示返回链接 */
                 <div className="flex justify-center mb-12">
                     <SmartLink href='/archive' className="flex items-center gap-2 text-gray-400 hover:text-primary transition-colors">
                         <i className="fas fa-chevron-left text-sm"></i>
@@ -152,6 +150,9 @@ const LayoutCategoryIndex = props => {
     )
 }
 
+/**
+ * 文章详情页 - 确保画廊组件加载
+ */
 const LayoutSlug = props => {
     const { post, lock, validPassword } = props
     if (!post) return <Loading />
@@ -159,6 +160,7 @@ const LayoutSlug = props => {
         <article className="w-full">
             <Banner title={post?.title} description={post?.summary} />
             <div className='container mx-auto px-5 py-10 max-w-6xl'>
+                {/* 使用 NotionPage 渲染，确保其能够正常解析 Notion 内置的画廊模块 */}
                 {lock ? <ArticleLock validPassword={validPassword} /> : <NotionPage {...props} />}
                 <div className="mt-10 border-t border-white/10 pt-10"><Comment frontMatter={post} /></div>
             </div>
