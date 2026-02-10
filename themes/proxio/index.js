@@ -29,56 +29,64 @@ import SearchInput from './components/SearchInput'
 import Lenis from '@/components/Lenis'
 import CursorDot from '@/components/CursorDot'
 
+/**
+ * 基础布局框架
+ */
 const LayoutBase = props => {
     const { children } = props
     useEffect(() => { loadWowJS() }, [])
     return (
         <div id='theme-proxio' className={`${siteConfig('FONT_STYLE')} min-h-screen flex flex-col dark:bg-dark scroll-smooth overflow-x-hidden`}>
-            <Style /><Header {...props} /><main id='main-wrapper' className='grow w-full'>{children}</main>
-            <Footer {...props} /><BackToTopButton /><Lenis /><CursorDot />
+            <Style />
+            <Header {...props} />
+            <main id='main-wrapper' className='grow w-full'>{children}</main>
+            <Footer {...props} />
+            <BackToTopButton />
+            <Lenis />
+            <CursorDot />
         </div>
     )
 }
 
 /**
- * 首页布局 - 包含排序逻辑修复与组件开关
+ * 首页布局 - 包含排序逻辑修复与跳转优化
  */
 const LayoutIndex = props => {
     const { locale } = useGlobal()
     
-    // 关键：根据 Notion 里的排序字段(如 01, 02)进行主动排序
+    // 1. 增强排序逻辑：解析 Notion 中的 01, 02 等排序属性
     const posts = useMemo(() => {
         if (!props?.allNavPages) return []
         return [...props.allNavPages].sort((a, b) => {
-            // 尝试读取排序属性，支持数字或字符串形式的 01, 02
-            const sortA = parseInt(a?.properties?.order || a?.properties?.排序 || 999)
-            const sortB = parseInt(b?.properties?.order || b?.properties?.排序 || 999)
+            const sortA = parseInt(a?.properties?.order || a?.properties?.排序) || 999
+            const sortB = parseInt(b?.properties?.order || b?.properties?.排序) || 999
             return sortA - sortB
         }).slice(0, 6)
     }, [props.allNavPages])
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col animate__animated animate__fadeIn">
             {/* Hero 模块 */}
             {siteConfig('PROXIO_HERO_ENABLE', true, CONFIG) && <section className="w-full"><Hero {...props} /></section>}
             
-            {/* 装饰图片 */}
+            {/* 装饰图片 - 优化加载与过渡感 */}
             <section className="container mx-auto px-5 lg:px-10 py-2 flex justify-center">
-                <img src="/images/wan.png" alt="decoration" className="w-full max-w-screen-xl h-auto object-contain opacity-90" />
+                <img src="/images/wan.png" alt="decoration" className="w-full max-w-screen-xl h-auto object-contain opacity-90 hover:opacity-100 transition-opacity duration-500" />
             </section>
 
             {/* 博客列表模块 */}
             <section className="container mx-auto px-5 lg:px-10 border-none pb-20 text-center"> 
                 <Blog posts={posts} />
                 <div className='flex justify-center mt-12'>
-                    <SmartLink href='/archive' className='group flex items-center gap-2 px-10 py-3 bg-white/5 hover:bg-white/10 border border-white/20 text-white rounded-full transition-all'>
+                    {/* 🍎 跳转优化：直接指向“博文”分类，并增加苹果风格缩放反馈 */}
+                    <SmartLink href='/category/博文' className='group flex items-center gap-2 px-10 py-3 bg-white/5 hover:bg-white/10 border border-white/20 text-white rounded-full transition-all active:scale-95'>
                         <span className='text-lg font-medium'>查看更多文章</span>
                         <i className="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                     </SmartLink>
                 </div>
             </section>
 
-            {/* 底部功能区块开关 */}
+            {/* 底部功能区块 */}
             <div className="container mx-auto px-5 lg:px-10 space-y-8 mb-10">
                 {siteConfig('PROXIO_ABOUT_ENABLE', true, CONFIG) && <Team />}
                 {siteConfig('PROXIO_FEATURE_ENABLE', true, CONFIG) && <Features />}
@@ -103,11 +111,11 @@ const LayoutArchive = props => {
 
             {!category && !tag ? (
                 <div className='flex flex-wrap justify-center gap-6 mb-16'>
-                    <SmartLink href='/category' className='flex items-center gap-3 px-8 py-3 bg-white/10 hover:bg-primary border border-white/20 text-white rounded-xl transition-all shadow-lg'>
+                    <SmartLink href='/category' className='flex items-center gap-3 px-8 py-3 bg-white/10 hover:bg-primary border border-white/20 text-white rounded-xl transition-all shadow-lg active:scale-95'>
                         <i className="fas fa-folder text-lg"></i>
                         <span className="font-bold">按分类查看</span>
                     </SmartLink>
-                    <SmartLink href='/tag' className='flex items-center gap-3 px-8 py-3 bg-white/5 hover:bg-white/20 border border-white/10 text-white rounded-xl transition-all'>
+                    <SmartLink href='/tag' className='flex items-center gap-3 px-8 py-3 bg-white/5 hover:bg-white/20 border border-white/10 text-white rounded-xl transition-all active:scale-95'>
                         <i className="fas fa-tags text-lg"></i>
                         <span className="font-bold">按标签查看</span>
                     </SmartLink>
@@ -151,7 +159,7 @@ const LayoutCategoryIndex = props => {
 }
 
 /**
- * 文章详情页 - 确保画廊组件加载
+ * 文章详情页
  */
 const LayoutSlug = props => {
     const { post, lock, validPassword } = props
@@ -160,7 +168,6 @@ const LayoutSlug = props => {
         <article className="w-full">
             <Banner title={post?.title} description={post?.summary} />
             <div className='container mx-auto px-5 py-10 max-w-6xl'>
-                {/* 使用 NotionPage 渲染，确保其能够正常解析 Notion 内置的画廊模块 */}
                 {lock ? <ArticleLock validPassword={validPassword} /> : <NotionPage {...props} />}
                 <div className="mt-10 border-t border-white/10 pt-10"><Comment frontMatter={post} /></div>
             </div>
@@ -179,7 +186,7 @@ const LayoutTagIndex = props => (
         <h2 className='text-white font-bold text-3xl mb-12 block'>热门标签</h2>
         <div className='flex flex-wrap justify-center gap-4 max-w-4xl mx-auto'>
             {props.tagOptions?.map(t => (
-                <SmartLink key={t.name} href={`/tag/${t.name}`} className='px-6 py-2 border border-white/10 text-white rounded-full hover:bg-primary transition-all'>#{t.name}</SmartLink>
+                <SmartLink key={t.name} href={`/tag/${t.name}`} className='px-6 py-2 border border-white/10 text-white rounded-full hover:bg-primary transition-all active:scale-95'>#{t.name}</SmartLink>
             ))}
         </div>
     </section>
