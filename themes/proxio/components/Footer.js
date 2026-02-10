@@ -10,7 +10,7 @@ import CONFIG from '../config'
 import SocialButton from './SocialButton'
 
 /**
- * 网页底脚 - 彻底移除多余横线版
+ * 网页底脚 - 极致简约苹果风格版
  */
 export const Footer = ({ title }) => {
   const PROXIO_FOOTER_LINKS = siteConfig('PROXIO_FOOTER_LINKS', [], CONFIG)
@@ -22,15 +22,14 @@ export const Footer = ({ title }) => {
       
       <div className='max-w-6xl w-full mx-auto '>
         
-        {/* 信息与链接区块 - 已移除 border-t 横线 */}
+        {/* 信息与链接区块 */}
         <div className='w-full flex lg:flex-row flex-col justify-between py-6'>
           <div className='gap-y-1 flex flex-col items-start dark:text-gray-200'>
             <div className='flex gap-x-1 items-baseline'>
+              {/* 这里仅保留主标题，移除重复的作者名显示 */}
               <h1 className='text-base font-bold'>{title}</h1>
-              <span className='text-xs underline justify-start opacity-70'>
-                {siteConfig('AUTHOR')}
-              </span>
             </div>
+            {/* 邮箱地址 */}
             <div className='px-0 text-sm opacity-60'>{siteConfig('CONTACT_EMAIL')}</div>
           </div>
 
@@ -61,7 +60,7 @@ export const Footer = ({ title }) => {
           )}
         </div>
 
-        {/* 页脚版权条 - 已移除 border-t 横线，并微调间距 */}
+        {/* 页脚版权条 */}
         <div className='dark:text-gray-400 py-4 flex flex-col lg:flex-row justify-between items-center text-[10px]'>
           <div className='flex gap-x-2 flex-wrap justify-between items-center'>
             <CopyRightDate />
