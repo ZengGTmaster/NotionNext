@@ -27,7 +27,7 @@ import { ArticleLock } from './components/ArticleLock'
 import { Banner } from './components/Banner'
 import SearchInput from './components/SearchInput'
 import Lenis from '@/components/Lenis'
-import CursorDot from '@/components/CursorDot'
+// 🍎 已移除 CursorDot 导入
 
 /**
  * 基础布局框架
@@ -43,7 +43,7 @@ const LayoutBase = props => {
             <Footer {...props} />
             <BackToTopButton />
             <Lenis />
-            <CursorDot />
+            {/* 🍎 已移除 <CursorDot /> 白色圆点已消失 */}
         </div>
     )
 }
@@ -78,7 +78,7 @@ const LayoutIndex = props => {
             <section className="container mx-auto px-5 lg:px-10 border-none pb-20 text-center"> 
                 <Blog posts={posts} />
                 <div className='flex justify-center mt-12'>
-                    {/* 🍎 跳转优化：直接指向“博文”分类，并增加苹果风格缩放反馈 */}
+                    {/* 跳转优化：直接指向“博文”分类 */}
                     <SmartLink href='/category/博文' className='group flex items-center gap-2 px-10 py-3 bg-white/5 hover:bg-white/10 border border-white/20 text-white rounded-full transition-all active:scale-95'>
                         <span className='text-lg font-medium'>查看更多文章</span>
                         <i className="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
