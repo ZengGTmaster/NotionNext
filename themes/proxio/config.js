@@ -40,8 +40,8 @@ const CONFIG = {
   // 特性区块
   PROXIO_FEATURE_ENABLE: true, // 特性区块开关
   PROXIO_FEATURE_TITLE: '为什么选我',
-  PROXIO_FEATURE_TEXT_1: '我能针对每个人制定学习课程和训练，',
-  PROXIO_FEATURE_TEXT_2: '丰富的教学经验，扎实的基本功，专业的吉他技能，我有十足的耐心',
+  PROXIO_FEATURE_TEXT_1: '针对每个人的情况制定学习课程',
+  PROXIO_FEATURE_TEXT_2: '丰富的教学经验，扎实的基本功，专业的吉他技能，拥有十足的耐心',
 
   // 特性1
   PROXIO_FEATURE_1_ICON_CLASS: 'fa-solid fa-stopwatch', // fas图标
@@ -182,7 +182,7 @@ const CONFIG = {
   PROXIO_ABOUT_TITLE: '关于作者',
   PROXIO_ABOUT_TEXT_1: '我是深耕好多人看不上，懒得干，来钱慢的教学领域',
   PROXIO_ABOUT_TEXT_2:
-    '太多人对社会上的琴行、培训机构不信任，是因为教吉他门槛低，不认真做、没水平的太多。也是为什么在学校里面挤破头都想把孩子送到好老师的班里。经验丰富、实践多年、有创作......而我就是你需要的人。',
+    '太多人对社会上的琴行、培训机构不信任，是因为教吉他门槛低，不认真做、没水平的人太多。也是为什么在学校里面挤破头都想把孩子送到好老师的班里。经验丰富、实践多年、有创作......而我就是你需要的人。',
   PROXIO_ABOUT_PHOTO_URL: '/avatar.png',
   PROXIO_ABOUT_KEY_1: '小学公办教师经历',
   PROXIO_ABOUT_VAL_1: '15年',
