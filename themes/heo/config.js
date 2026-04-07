@@ -18,8 +18,8 @@ const CONFIG = {
   HEO_HERO_BODY_REVERSE: false,
 
   // 英雄区(首页顶部大卡)
-  HEO_HERO_TITLE_1: '琴棋书画',
-  HEO_HERO_TITLE_2: 'www.mskyer.com',
+  HEO_HERO_TITLE_1: '',
+  HEO_HERO_TITLE_2: '',
   HEO_HERO_TITLE_3: '',
   HEO_HERO_TITLE_4: '',
   HEO_HERO_TITLE_5: '大音希声，大象无形。',
